@@ -1,0 +1,24 @@
+{
+  "name": "ppqbk",
+  "version": "1.0.0",
+  "description": "PPQ backend api",
+  "keywords": [
+    "ppq",
+    "bk"
+  ],
+  "homepage": "https://github.com/onlinewithbeta/PPQBK#readme",
+  "bugs": {
+    "url": "https://github.com/onlinewithbeta/PPQBK/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onlinewithbeta/PPQBK.git"
+  },
+  "license": "ISC",
+  "author": "projectpq admin",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  }
+}

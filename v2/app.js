@@ -1,6 +1,7 @@
 //the app
 import express from 'express';
 import Routes from './src/routes/routes.js';
+import errorHandler from './src/middleware/Error/error.js';
 
 // Create Express app
 const app = express();
@@ -13,22 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(Routes)
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-    console.error('Error:', err.stack);
-    res.status(500).json({
-        success: false,
-        error: 'Internal Server Error'
-    });
-});
+app.use(errorHandler.generalError);
 
 // 404 handler
-app.use((req, res) => {
-    res.status(404).json({
-        success: false,
-        error: 'Endpoint not found',
-        path: req.originalUrl
-    });
-});
+app.use(errorHandler.notfoundError);
 
 // Export the app instance
 export default app;

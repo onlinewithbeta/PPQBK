@@ -1,18 +1,11 @@
 // routes/users.js
 import { Router } from 'express';
-import courses from '../controllers/PQs/courses.pq.controllers.js';
-import sessions from '../controllers/PQs/sessions.pq.controllers.js';
-import paper from '../controllers/PQs/paper.pq.controllers.js';
-
+import pq from '../controllers/PQs/pq.controllers.js';
 
 const router = Router();
 
-router.get('/courses', courses);
-
-router.get('/sessions', sessions);
-
-router.get('/paper', paper);
-
-
+router.get('/courses', pq.courses);
+router.get('/sessions', pq.sessions);
+router.get('/paper', pq.paper);
 
 export default router;

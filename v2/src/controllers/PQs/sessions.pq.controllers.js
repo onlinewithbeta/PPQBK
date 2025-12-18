@@ -19,21 +19,21 @@ export default async function sessions(req, res) {
   const uptodateCourses = await pqInfo.get(cfg.PQDB); // make request
 
   // Format the Online Courses data
-  let availableYears = await pqInfo.get(`repos/UniportPQ/${course}/contents/`);
-  availableYears = availableYears.data.map(repo => repo.name);
-  availableYears = availableYears.map(repo =>
+  let availableSessions = await pqInfo.get(`repos/UniportPQ/${course}/contents/`);
+  availableSessions = availableSessions.data.map(repo => repo.name);
+  availableSessions = availableSessions.map(repo =>
    repo.replace(/\.json$/, "").replace(/_/g, "/")
   );
-//Sent sessions to user
+//Send sessions to user
 res.json({
    success: true,
-   availableYears
+   availableSessions
   });
 
   console.log("Seesions sent!");
  } catch (err) {
-  //failed to sent sessions.
-  console.log("Not Seesions sent!");
+  //failed to send sessions.
+  console.log("Seesions Not sent!");
   console.log(err.message);
   
   res.json({

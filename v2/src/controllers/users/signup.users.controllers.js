@@ -8,7 +8,7 @@ export default async function signUp(req, res) {
   const userObj = await usersFunctions.createUser(req.body);
 
   //try to save it to DB
-  //await saveUser(userObj);
+  await usersFunctions.saveUser(userObj);
   
   /*
   //send notification to user's gmail

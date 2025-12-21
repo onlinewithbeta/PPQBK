@@ -55,3 +55,17 @@ console.log("createdUser")
 
  return createdUser;
 }
+
+
+let fu=
+{
+	"username":"bekekd8",
+	"password":"jxjx7xdbx9xx_",
+	"gmail":"believe@gmail.com",
+	"phone":"9064498317",
+	
+	"faculty":"eng",
+	"department":"civil",
+	"matno":"xxkd9ene",
+
+}

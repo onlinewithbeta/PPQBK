@@ -1,10 +1,9 @@
+
 import mongoose from "mongoose";
 import cfg from "../../cfg.js";
-await connectDB()
+//await connectDB()
 console.log(cfg)
-
+await connectDB();
 export default async function connectDB() {
-    console.log("successful to connection");
-    await mongoose.connect(cfg.MONGODB);
-    console.log("successful to connection");
+
 }

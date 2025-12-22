@@ -39,7 +39,6 @@ const transactionSchema = new mongoose.Schema({
    min: [0, "Balance cannot be negative"]
   }
  },
-
  gmail: {
   type: String
  },

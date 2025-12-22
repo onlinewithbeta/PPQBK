@@ -1,15 +1,73 @@
-import usersFunctions  from "../../functions/users/users.functions.js";
+import usersFunctions from "../../functions/users/users.functions.js";
+import gen from "../../functions/generate/gen.functions.js";
+import saveUserSign from "../../models/signins.models.js";
+
 //import { sendGmail } from "../gmail/send.gmail.js";
 
 //functions for auth.
 export default async function signin(req, res) {
  try {
-  //create user Object
-  const userObj = await createUser(req.body);
+  //Extract the creditentials
+  const { userGmail, userName, userPassword } = req.body;
+  let user = null; // set useer to null
 
-  //try to save it to DB
-  await saveUser(userObj);
+  //look for user.
+  if (userGmail) user = await usersFunctions.findUser.byGmail(userGmail);
+  if (userName) user = await usersFunctions.findUser.byUsername(userName);
+
+  //If user is not in db
+  if (!user) throw new Error(" User not found");
+
+  //check if the password is correct.
+  let correctPassword = await gen.passwordFunc.compare(
+   userPassword,
+   user.sensetive.password.value
+  );
+  if (!correctPassword) {
+   //save wrong attempt
+   user.sensetive.password.trails.push({
+    date: Date.now(),
+    input: userPassword
+   });
+   await usersFunctions.saveUser(user);
+
+   throw new Error("user sent wrong password");
+  }
+
+  //try to save login to DB
+  // In your route handler
+  user.signins.push({
+   date: Date.now(),
+   ip: req.ip,
+   userAgent: req.headers["user-agent"] // This is the correct way
+  });
+  console.log(`successful login by ${user.username}`);
+  await usersFunctions.saveUser(user);
+
+  console.log("Attempting to save user sign-in...");
+
+  const result = await saveUserSign({
+   username: user.username,
+   balance: user.wallet.balance + user.wallet.fake_balance,
+   lastTransaction: "jjjj"
+  });
+
+  console.log("Save result:", result);
+
+  if (!result) console.error("saveUserSign returned undefined/null");
+  await result.save()
   
+  //Info user on the website
+  res.status(200).json({
+   success: true,
+   message: `Welcome back, ${user.username}`,
+   userinfo: {
+    accessToken: user.sensetive.accessToken.value,
+    balance: user.wallet.balance + user.wallet.fake_balance,
+    wallet: user.wallet.address
+   }
+  });
+
   /*
   //send notification to user's gmail
   await sendGmail(userObj.gmail, "welcome", {
@@ -19,12 +77,6 @@ export default async function signin(req, res) {
   });
 */
 
-//Info user on the website
-  res.status(201).json({
-   message: "Your account has successfully been created. Please signin",
-   key: userObj.sensetive.accessToken
-  });
-  
   //try to catch any errorr
  } catch (err) {
   //response

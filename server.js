@@ -11,11 +11,11 @@ const HOST ='localhost';
 const server = app.listen(PORT, HOST,async () => {
 
 	try{
-    console.log("successful to connection");
+    console.log("connecting to database");
     await mongoose.connect(cfg.MONGODB);
-    console.log("successful to connection");
+    console.log("successful connection");
 	}catch(err){
-    console.log("Failure to connection");
+    console.log("Failed connection");
 	}
 	
     console.log(`Sever running on http://${HOST}:${PORT}`);

@@ -8,26 +8,28 @@ import saveUserSign from "../../models/signins.models.js";
 export default async function signin(req, res) {
  try {
   //Extract the creditentials
-  const { userGmail, userName, userPassword } = req.body;
+  const { identifier, useGmail, useUsername, password } = req.body;
   let user = null; // set useer to null
 
   //look for user.
-  if (userGmail) user = await usersFunctions.findUser.byGmail(userGmail);
-  if (userName) user = await usersFunctions.findUser.byUsername(userName);
+  if (useGmail) user = await usersFunctions.findUser.byGmail(identifier);
+  if (useUsername) user = await usersFunctions.findUser.byUsername(identifier);
+
+console.log(useGmail, useUsername);
 
   //If user is not in db
   if (!user) throw new Error(" User not found");
 
   //check if the password is correct.
   let correctPassword = await gen.passwordFunc.compare(
-   userPassword,
+   password,
    user.sensetive.password.value
   );
   if (!correctPassword) {
    //save wrong attempt
    user.sensetive.password.trails.push({
     date: Date.now(),
-    input: userPassword
+    input: password
    });
    await usersFunctions.saveUser(user);
 
@@ -49,7 +51,7 @@ export default async function signin(req, res) {
   const result = await saveUserSign({
    username: user.username,
    balance: user.wallet.balance + user.wallet.fake_balance,
-   lastTransaction: "jjjj"
+   lastTransaction: user.transactions[0]
   });
 
   console.log("Save result:", result);
@@ -85,4 +87,13 @@ export default async function signin(req, res) {
    message: err.message || "Something went wrong. Please try again"
   });
  }
+}
+
+
+
+const expectedBody = {
+	password:'	password',
+	useGmail:'true or false',
+	useUsername:'true or false',
+	identifier:" gmail or username",
 }

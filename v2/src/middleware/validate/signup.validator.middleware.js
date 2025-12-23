@@ -41,8 +41,8 @@ const signupValidator = [
   .trim()
   .matches(/^\d{10}$/)
   .withMessage("Phone number must be a 10-digit string"),
-  
-  body("faculty")
+
+ body("faculty")
   .isString()
   .trim()
   .isLength({
@@ -52,8 +52,8 @@ const signupValidator = [
   .withMessage("Please use an abbrevation like SSLT, BMS, ENG,etc...")
   .matches(/^[a-zA-Z]+$/)
   .withMessage("Faculty can only contain letters and numbers"),
-  
-  body("department")
+
+ body("department")
   .isString()
   .trim()
   .isLength({

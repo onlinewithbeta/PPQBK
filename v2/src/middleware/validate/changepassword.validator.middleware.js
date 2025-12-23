@@ -1,7 +1,8 @@
 
 
 import {
-  validationResult
+  validationResult,
+  body
 } from 'express-validator';
 
 

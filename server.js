@@ -21,3 +21,4 @@ const server = app.listen(PORT, HOST,async () => {
     console.log(`Sever running on http://${HOST}:${PORT}`);
     console.log(`📁 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
+

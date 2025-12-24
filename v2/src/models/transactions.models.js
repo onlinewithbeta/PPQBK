@@ -20,7 +20,7 @@ const transactionSchema = new mongoose.Schema({
   },
   date: {
    start: {
-    type: Date,
+    initiated: Date,
     default: Date.now
    },
    verified: {

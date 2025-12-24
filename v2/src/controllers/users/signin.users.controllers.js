@@ -15,8 +15,6 @@ export default async function signin(req, res) {
   if (useGmail) user = await usersFunctions.findUser.byGmail(identifier);
   if (useUsername) user = await usersFunctions.findUser.byUsername(identifier);
 
-console.log(useGmail, useUsername);
-
   //If user is not in db
   if (!user) throw new Error(" User not found");
 
@@ -32,7 +30,7 @@ console.log(useGmail, useUsername);
     input: password
    });
    await usersFunctions.saveUser(user);
-
+   //throw error
    throw new Error("user sent wrong password");
   }
 
@@ -57,8 +55,8 @@ console.log(useGmail, useUsername);
   console.log("Save result:", result);
 
   if (!result) console.error("saveUserSign returned undefined/null");
-  await result.save()
-  
+  await result.save();
+
   //Info user on the website
   res.status(200).json({
    success: true,
@@ -89,11 +87,9 @@ console.log(useGmail, useUsername);
  }
 }
 
-
-
 const expectedBody = {
-	password:'	password',
-	useGmail:'true or false',
-	useUsername:'true or false',
-	identifier:" gmail or username",
-}
+ password: "	password",
+ useGmail: "true or false",
+ useUsername: "true or false",
+ identifier: " gmail or username"
+};

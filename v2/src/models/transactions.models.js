@@ -42,10 +42,10 @@ const transactionSchema = new mongoose.Schema({
  gmail: {
   type: String
  },
- uniqueid: {
+ transactionid: {
   type: String
  },
- userid: {
+ sessionid: {
   type: String
  }
 });

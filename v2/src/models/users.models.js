@@ -34,6 +34,9 @@ const userSchema = new mongoose.Schema(
    trim: true,
    match: [/^\d{10}$/, "Phone number must be 10 digits (9117624343)"]
   },
+  avatar: {
+   type: String,
+  },
   //studentInfo
   studentInfo: {
    faculty: {
@@ -49,8 +52,8 @@ const userSchema = new mongoose.Schema(
 
    matno: {
     type: String,
-    required: [true, "Please input your department"],
-    maxlength: [16, "department is too long, Use the common abbrevation"]
+    required: [true, "Please input your Mat. No"],
+    maxlength: [16, "Mat. No is too long, Use the common abbrevation"]
    },
 
    views: [
@@ -182,7 +185,10 @@ const userSchema = new mongoose.Schema(
      default: 0,
      min: [0, "Balance cannot be negative"]
     },
-    id: {
+    transactionid: {
+     type: String
+    },
+    sessionid: {
      type: String
     }
    }
@@ -212,6 +218,10 @@ const userSchema = new mongoose.Schema(
      type: Date,
      default: Date.now
     },
+    sessionid:{
+    	type:String,
+    	default:"None"
+    }
     ip: String,
     userAgent: String
    }

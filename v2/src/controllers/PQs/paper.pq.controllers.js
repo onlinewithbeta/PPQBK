@@ -1,4 +1,7 @@
 //Get the exampaper
+import gen from "../../functions/generate/gen.functions.js";
+import saveFunctions from "../../functions/mongoose/save.functions.js";
+import usersFunctions from "../../functions/users/users.functions.js";
 import {
  selectAccesscode,
  createPqFiles
@@ -22,16 +25,48 @@ export default async function paper(req, res) {
 
   //deduct and record
 
-  //return to user.
+  //save to user
+  const user = req.user;
+  const payLoad = {
+   sessionid: user.sensetive.sessionid.value,
+   date: Date.now,
+   balance: user.wallet.balance,
+   item: `${course} ${session}`
+  };
+  user.studentInfo.views.unshift(payLoad);
+  await usersFunctions.saveUser(user);
+
+  //save globally
+
+  const transaction = {
+   userTransaction: {
+    type: "PQ View",
+    cost: 0,
+    description: `${course} ${session}`,
+    status: "success",
+    date: {
+     start: Date.now,
+     verified: null
+    }
+   },
+   gmail: user.gmail,
+   transactionid: gen.randomDigits(10),
+   sessionid: user.sensetive.sessionid.value
+  };
+
+  await saveFunctions.transactions(transaction);
+
+  //Send exam paper to user.
   res.json({
    success: true,
-   examPaper
+   examPaper: examPaper.data
   });
 
   console.log("examPaper sent");
  } catch (err) {
   //failed to update the Available Courses . user will jut see the old ones.
   console.log("Courses update failed!");
+  console.log(err);
   res.json({
    success: false,
    message: "Failed to get exam paper"

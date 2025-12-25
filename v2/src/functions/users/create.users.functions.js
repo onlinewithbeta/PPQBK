@@ -7,6 +7,7 @@ export default async function createUser(userObj) {
   username: userObj.username,
   gmail: userObj.gmail,
   phone: userObj.phone,
+  avatar:"avatar1",
 
   studentInfo: {
    faculty: userObj.faculty,

@@ -1,4 +1,4 @@
-import usersFunctions  from "../../functions/users/users.functions.js";
+import usersFunctions from "../../functions/users/users.functions.js";
 import User from "../../models/users.models.js";
 
 //import { sendGmail } from "../gmail/send.gmail.js";
@@ -10,14 +10,14 @@ export default async function signUp(req, res) {
   const userObj = await usersFunctions.createUser(req.body);
 
   //try to save it to DB
-  console.log("Trying to save")
-  
+  console.log("Trying to save");
+
   const savedUser = await usersFunctions.saveUser(userObj);
-  
-  console.log("Tried to save")
-  
-  console.log(savedUser)
-  
+
+  console.log("Tried to save");
+
+  console.log(savedUser);
+
   /*
   //send notification to user's gmail
   await sendGmail(userObj.gmail, "welcome", {
@@ -27,20 +27,21 @@ export default async function signUp(req, res) {
   });
 */
 
-//Info user on the website
+  //Info user on the website
   res.status(201).json({
-  	success:true,
+   success: true,
    message: "Your account has successfully been created. Please signin",
    user: userObj
   });
-  
+
   //try to catch any errorr
  } catch (err) {
   //response
   console.log(err.message);
   res.status(500).json({
-  	success:false,
+   success: false,
    message: err.message || "Something went wrong. Please try again"
   });
  }
 }
+

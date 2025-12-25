@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema(
   //Normal account info
   username: {
    type: String,
-   unique: [true, "username aleady taken."],
+   unique: [true, "Username aleady taken."],
    required: [true, "Please choose a username"],
    trim: true,
    minlength: [3, "Username must be at least 3 characters"],
@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
   gmail: {
    type: String,
    required: [true, "Please enter your Gmail address"],
-   unique: [true, "This gmail already has an account"],
+   unique: [true, "This gmail already has an account. Please login or close the account. You can ask admin to close the account"],
    trim: true,
    lowercase: true,
    maxlength: [100, "Email is too long"],
@@ -29,31 +29,32 @@ const userSchema = new mongoose.Schema(
   },
   phone: {
    type: String,
-   unique: [true, "This phone number already has account"],
+   unique: [true, "This phone number already has account. Please login or close the account. You can ask admin to close the account"],
    required: [true, "Please enter your phone number"],
    trim: true,
    match: [/^\d{10}$/, "Phone number must be 10 digits (9117624343)"]
   },
   avatar: {
    type: String,
+   default:"avatar1"
   },
   //studentInfo
   studentInfo: {
    faculty: {
     type: String,
     required: [true, "Please input your faculty"],
-    maxlength: [6, "faculty is too long, Use the common abbrevation"]
+    maxlength: [200, "faculty is too long, Use the common abbrevation"]
    },
    department: {
     type: String,
     required: [true, "Please input your department"],
-    maxlength: [6, "department is too long, Use the common abbrevation"]
+    maxlength: [200, "department is too long, Use the common abbrevation"]
    },
 
    matno: {
     type: String,
     required: [true, "Please input your Mat. No"],
-    maxlength: [16, "Mat. No is too long, Use the common abbrevation"]
+    maxlength: [16, "Mat. No is too long"]
    },
 
    views: [
@@ -221,7 +222,7 @@ const userSchema = new mongoose.Schema(
     sessionid:{
     	type:String,
     	default:"None"
-    }
+    },
     ip: String,
     userAgent: String
    }

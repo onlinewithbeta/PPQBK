@@ -25,7 +25,7 @@ export default async function fund(req, res) {
   id: requestFund.reference
  };
 
- user.transactions.push(pendingTransacion);
+ user.transactions.unshift(pendingTransacion);
 
  await userFunctions.saveUser(user);
 

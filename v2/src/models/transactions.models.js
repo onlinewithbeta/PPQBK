@@ -1,4 +1,4 @@
-//
+//ggg
 import mongoose from "mongoose";
 
 const transactionSchema = new mongoose.Schema({
@@ -19,8 +19,8 @@ const transactionSchema = new mongoose.Schema({
    default: "pending"
   },
   date: {
-   start: {
-    initiated: Date,
+   initiated: {
+    type: Date,
     default: Date.now
    },
    verified: {

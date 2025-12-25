@@ -6,9 +6,10 @@ export default async function saveUser(userObj) {
   const newUser = new User(userObj);
   await newUser.save();
   console.log("saved");
+  console.log(newUser);
   return newUser;
  } catch (err) {
-  console.log(err);
+  console.log("error in saving " ,err);
    throw new Error(err.message)
  }
 }

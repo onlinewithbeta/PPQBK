@@ -9,5 +9,6 @@ router.get('/courses', pq.courses);
 router.use(apikeyMiddleware)
 router.get('/sessions', pq.sessions);
 router.get('/paper', pq.paper);
+router.post('/subjectivemaker', pq.subjectivemaker);
 
 export default router;

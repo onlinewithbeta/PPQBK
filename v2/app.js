@@ -10,6 +10,33 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//Permit
+// src/middleware/cors.js - Simple version
+
+/**
+ * Simple CORS middleware
+ */
+ app.use(
+(req, res, next) => {
+  // Allow requests from any origin
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  
+  // Allow specific methods
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  
+  // Allow specific headers
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+  
+  next();
+};
+)
+
+
 // Routes
 app.use(Routes)
 

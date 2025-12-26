@@ -33,8 +33,7 @@ app.use(express.urlencoded({ extended: true }));
   }
   
   next();
-};
-)
+});
 
 
 // Routes

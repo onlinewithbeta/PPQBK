@@ -10,6 +10,8 @@ const cfg = {
  
  MONGODB:process.env.MONGODB,
  
+ paystackKey:process.env.PAYSTACKKEY,
+ 
  accesscodes: [
   process.env.accesscodes1,
   process.env.accesscodes2,

@@ -1,4 +1,5 @@
 import https from "https";
+import cfg from "../../cfg.js";
 
 // Fund function (ES6)
 async function requestFunding(gmail = "test1@gmail.com", amount = 500) {
@@ -23,7 +24,7 @@ async function requestFunding(gmail = "test1@gmail.com", amount = 500) {
   method: "POST",
   headers: {
    //Authorization: `Bearer ${cfg.payKey}`,
-   Authorization: `Bearer sk_test_3e73f8a42161a8905d44fb319c1422bf564c8f2c`,
+   Authorization: `Bearer ${cfg.paystackKey}`,
    "Content-Type": "application/json"
   }
  };

@@ -20,7 +20,7 @@
   "main": "server.js",
   "scripts": {
     "test": "nodemon --env-file=.env server.js",
-    "start": "node --env-file=.env server.js",
+    "start": "node server.js",
     "dev": "clear && nodemon --env-file=.env server.js && clear"
   },
   "dependencies": {

@@ -45,8 +45,8 @@ export default async function signin(req, res) {
   await usersFunctions.saveUser(user);
 
   console.log("Attempting to save user sign-in...");
-
-  const result = await saveUserSign({
+//save signin globally
+  const result = await usersFunctions.saveUserSign({
    username: user.username,
    balance: user.wallet.balance + user.wallet.fake_balance,
    lastTransaction: user.transactions[0]

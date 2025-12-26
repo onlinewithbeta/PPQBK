@@ -7,7 +7,7 @@ const PORT = cfg.PORT || 3000;
 const HOST = "localhost";
 
 // Start the server
-const server = app.listen(PORT, HOST, async () => {
+const server = app.listen(PORT, async () => {
  try {
   console.log("connecting to database");
   await mongoose.connect(cfg.MONGODB);

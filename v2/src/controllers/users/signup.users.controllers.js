@@ -31,7 +31,10 @@ export default async function signUp(req, res) {
   res.status(201).json({
    success: true,
    message: "Your account has successfully been created. Please signin",
-   user: userObj
+   user: {
+   	accesstoken:user.sensetive.accessToken.value,
+   	gmail:user.gmail
+   }
   });
 
   //try to catch any errorr
@@ -44,4 +47,3 @@ export default async function signUp(req, res) {
   });
  }
 }
-

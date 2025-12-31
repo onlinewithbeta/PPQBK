@@ -27,7 +27,7 @@ export default async function sessions(req, res) {
 //Send sessions to user
 res.json({
    success: true,
-   availableSessions
+   data:availableSessions
   });
 
   console.log("Seesions sent!");

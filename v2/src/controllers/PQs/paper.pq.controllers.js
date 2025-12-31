@@ -59,7 +59,7 @@ export default async function paper(req, res) {
   //Send exam paper to user.
   res.json({
    success: true,
-   examPaper: examPaper.data
+   data: examPaper.data
   });
 
   console.log("examPaper sent");

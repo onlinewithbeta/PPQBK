@@ -32,7 +32,7 @@ if(session.includes("/")) session = session.split("/").join("_");
   const payLoad = {
    sessionid: user.sensetive.sessionid.value,
    date: Date.now,
-   balance: user.wallet.balance,
+   balance: user.wallet.balance + user.wallet.fake_balance,
    item: `${course} ${session}`
   };
   user.studentInfo.views.unshift(payLoad);
@@ -61,7 +61,12 @@ if(session.includes("/")) session = session.split("/").join("_");
   //Send exam paper to user.
   res.json({
    success: true,
-   data: examPaper.data
+   data: examPaper.data,
+   user:{
+   	accessToken: user.sensetive.accessToken.value,
+   	balance:  user.wallet.balance + user.wallet.fake_balance,
+   	wallet: user.wallet.address
+   }
   });
 
   console.log("examPaper sent");

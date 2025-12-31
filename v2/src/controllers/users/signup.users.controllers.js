@@ -47,3 +47,24 @@ export default async function signUp(req, res) {
   });
  }
 }
+
+
+
+
+/*
+
+export async function giftUsers (){
+	const allUsers = await User.find({});
+let tokens =0;
+
+for(let i = 0; i<allUsers.length; i++){
+	const user = allUsers[i];
+	if(user.wallet.balance>1){
+		tokens = tokens + user.wallet.balance;
+	}
+			console.log(tokens)
+
+}
+}
+
+*/

@@ -40,7 +40,7 @@ export default function courses(req, res) {
  console.log("courses viewed");
  res.json({
    success: true,
-   availableCourses
+   data:availableCourses
   });
 
 }

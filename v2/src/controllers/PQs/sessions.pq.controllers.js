@@ -8,7 +8,7 @@ import cfg from "../../cfg.js";
 //Get the session
 export default async function sessions(req, res) {
 //extract the wanted course
- const course = JSON.parse(req.query.course);
+ const course = req.query.course;
 
  //Seacrh for the Available sessions for our course
  console.log(`fetching sessions for ${course}`);

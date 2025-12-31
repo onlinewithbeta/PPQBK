@@ -5,7 +5,6 @@ import apikeyMiddleware from '../middleware/accesskey.middlewares.js';
 const router = Router();
 
 router.get('/courses', pq.courses);
-
 router.use(apikeyMiddleware)
 router.get('/sessions', pq.sessions);
 router.get('/paper', pq.paper);

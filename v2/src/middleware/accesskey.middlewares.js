@@ -18,7 +18,6 @@ export default async function apikeyMiddleware(req, res, next) {
    console.log("User not found");
    throw new Error("Invalid API key Or Expired APIKEY. Please login.");
   }
-
   // Attach user to request
   req.user = user;
   next();

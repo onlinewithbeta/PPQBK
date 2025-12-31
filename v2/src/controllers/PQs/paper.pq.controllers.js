@@ -11,8 +11,10 @@ import cfg from "../../cfg.js";
 //function to get the required paper
 export default async function paper(req, res) {
  //Extract the Course and session wanted.
- const course = JSON.parse(req.query.course);
- const session = JSON.parse(req.query.session);
+ const course = req.query.course;
+ let session = req.query.session;
+
+if(session.includes("/")) session = session.split("/").join("_");
 
  //Available Courses update initiated"
  console.log(`Fetching exam paper for ${course} ${session}.`);

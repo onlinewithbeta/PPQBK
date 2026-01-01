@@ -1,4 +1,5 @@
 import userFunctions from "../../functions/users/users.functions.js";
+import cfg from "../../cfg.js";
 
 export default async function fund(req, res) {
  const user = req.user;
@@ -9,6 +10,9 @@ export default async function fund(req, res) {
  const requestFund = await userFunctions.chargeUser(gmail, amount);
 
  //hit wk
+ let hitWK = await fetch(cfg.wk);
+ hitWK = hitWK.json();
+ console.log(hitWK);
 
  //save as pending
  let pendingTransacion = {

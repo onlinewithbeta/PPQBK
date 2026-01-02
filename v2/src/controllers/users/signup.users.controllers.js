@@ -32,8 +32,8 @@ export default async function signUp(req, res) {
    success: true,
    message: "Your account has successfully been created. Please signin",
    user: {
-   	accesstoken:user.sensetive.accessToken.value,
-   	gmail:user.gmail
+   	accesstoken:savedUser.sensetive.accessToken.value,
+   	gmail:savedUser.gmail
    }
   });
 

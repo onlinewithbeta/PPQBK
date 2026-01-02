@@ -10,9 +10,7 @@ export default async function fund(req, res) {
  const requestFund = await userFunctions.chargeUser(gmail, amount);
 
  //hit wk
- let hitWK = await fetch(cfg.wk);
- hitWK = hitWK.json();
- console.log(hitWK);
+ await fetch(cfg.wk);
 
  //save as pending
  let pendingTransacion = {

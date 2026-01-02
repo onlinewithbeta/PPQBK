@@ -68,13 +68,13 @@ const signupValidator = [
   .isString()
   .trim()
   .isLength({
-   min: 3,
-   max: 20
+    min: 3,
+    max: 20
   })
   .withMessage("Mat. no must be between 3 and 20 characters")
-  .matches(/^[a-zA-Z0-9_]+$/)
-  // U2022/3010024 wwill be stored as U2022_3010024
-  .withMessage("Mat. no can only contain letters, numbers, and underscores")
+  // Updated Regex below: added \/ inside the brackets
+  .matches(/^[a-zA-Z0-9_\/]+$/)
+  .withMessage("Mat. no can only contain letters, numbers, underscores, and slashes")
 ];
 
 export default signupValidator;

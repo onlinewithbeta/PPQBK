@@ -51,7 +51,7 @@ const signupValidator = [
   })
   .withMessage("Please use an abbrevation like SSLT, BMS, ENG,etc...")
   .matches(/^[a-zA-Z]+$/)
-  .withMessage("Faculty can only contain letters and numbers"),
+  .withMessage("Faculty can only contain letters"),
 
  body("department")
   .isString()
@@ -62,7 +62,7 @@ const signupValidator = [
   })
   .withMessage("Please use an abbrevation like BCT, PHARM, ELECT,etc...")
   .matches(/^[a-zA-Z]+$/)
-  .withMessage("Department can only contain letters and numbers"),
+  .withMessage("Department can only contain letters"),
 
  body("matno")
   .isString()
@@ -74,7 +74,7 @@ const signupValidator = [
   .withMessage("Mat. no must be between 3 and 20 characters")
   // Updated Regex below: added \/ inside the brackets
   .matches(/^[a-zA-Z0-9_\/]+$/)
-  .withMessage("Mat. no can only contain letters, numbers, underscores, and slashes")
+  .withMessage("Mat. no can only contain letters, numbers, and slashes")
 ];
 
 export default signupValidator;

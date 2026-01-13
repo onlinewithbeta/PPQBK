@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
   },
   phone: {
    type: String,
-   unique: [true, "This phone number already has account. Please login or close the account. You can ask admin to close the account"],
+  // unique: [true, "This phone number already has account. Please login or close the account. You can ask admin to close the account"],
    required: [true, "Please enter your phone number"],
    trim: true,
    match: [/^\d{10}$/, "Phone number must be 10 digits (9117624343)"]

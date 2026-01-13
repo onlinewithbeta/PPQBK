@@ -25,7 +25,7 @@ async function updateavailableCourses() {
    name: repo.name,
    description: repo.description
   }));
-  console.log(availableCourses);
+  //console.log(availableCourses);
   
   console.log("Available Courses update success!");
  } catch (err) {

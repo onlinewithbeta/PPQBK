@@ -8,6 +8,7 @@ const cfg = {
  PQ_INFO_URL: process.env.PQ_INFO_URL,
  PQDB: process.env.PQDB,
  wk: process.env.wk,
+ emailer: process.env.emailer,
  
  MONGODB:process.env.MONGODB,
  

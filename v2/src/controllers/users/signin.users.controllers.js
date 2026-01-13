@@ -88,8 +88,8 @@ export default async function signin(req, res) {
 }
 
 const expectedBody = {
- password: "	password",
- useGmail: "true or false",
- useUsername: "true or false",
- identifier: " gmail or username"
+ "password": "	password",
+ "useGmail": "true or false",
+ "useUsername": "true or false",
+ "identifier": " gmail or username"
 };

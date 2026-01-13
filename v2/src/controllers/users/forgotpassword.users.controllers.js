@@ -6,7 +6,7 @@ export default async function forgotpassword(req, res) {
  try {
   //verify gmail
   const { gmail } = req.body;
-  let user = await usersFunctions.byGmail(gmail);
+  let user = await usersFunctions.findUser.byGmail(gmail);
   
   //Validate gmail is a user.
   if (!user) throw new Error("Please sign up");
@@ -16,7 +16,7 @@ export default async function forgotpassword(req, res) {
   
   res.send({
    success: true,
-   message: `An OTP has been sent to ${gmail} `
+   message: `You OTP has been sent to ${gmail} `
   });
   
   //try to catch any errorr

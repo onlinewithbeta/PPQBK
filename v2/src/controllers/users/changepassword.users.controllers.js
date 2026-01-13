@@ -1,15 +1,18 @@
-import usersFunctions  from "../../functions/users/users.functions.js";
+import usersFunctions from "../../functions/users/users.functions.js";
 //import { sendGmail } from "../gmail/send.gmail.js";
 
 //functions for auth.
 export default async function changepassword(req, res) {
  try {
-  //create user Object
-  const userObj = await createUser(req.body);
+  //Exract the parameters.
+  const { gmail, otp, password } = req.body;
 
-  //try to save it to DB
-  await saveUser(userObj);
-  
+  //Find the user
+  const user = await usersFunctions.findUser.byGmail(gmail);
+
+  //Try to change password and save.
+  await usersFunctions.changePassword(user, { gmail, otp, password });
+
   /*
   //send notification to user's gmail
   await sendGmail(userObj.gmail, "welcome", {
@@ -19,18 +22,18 @@ export default async function changepassword(req, res) {
   });
 */
 
-//Info user on the website
+  //Info user on the website
   res.status(201).json({
-   message: "Your account has successfully been created. Please signin",
-   key: userObj.sensetive.accessToken
+  	success: true,
+   message: "You have successfully changed your password"
   });
-  
+
   //try to catch any errorr
  } catch (err) {
   //response
   console.log(err);
   res.status(500).json({
-   message: err.message || "Something went wrong. Please try again"
+   message: err.message || "Could not change password"
   });
  }
 }

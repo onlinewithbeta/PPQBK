@@ -1,22 +1,30 @@
-import usersFunctions from "../../functions/users/users.functions.js";
-import gen from "../../functions/generate/gen.functions.js";
+import usersFunctions from "./users.functions.js";
+import gen from "../generate/gen.functions.js";
+import cfg from "../../cfg.js";
 
-export default function otpUser(user){
-	
-	//Reset otp 
-	user.sensetive.otp = {
-		value:gen.randomDigits(6),
-		expires:gen.timeFunc.future(3)
-	};
-	
-	//save user
-	usersFunctions.save(user)
+export default async function otpUser(user) {
+ //Reset otp
+ let otp = user.sensetive.otp;
+ 
+ console.log(otp);
+ otp = {
+  value: gen.randomDigits(6),
+  expires: gen.moment.future(3)
+ };
+ console.log(otp);
 
-	//sendOTP
-sendGmail( 'otp', {
-	gmail,
-	otp,
-	expires
-});
-	
+ user.sensetive.otp = otp;
+
+ //save user
+ usersFunctions.saveUser(user);
+let sendOTPeq = await fetch(`${cfg.emailer}/otp?gmail=${encodeURIComponent(user.gmail)}&otp=${encodeURIComponent(otp.value)}`);
+
+/*
+ //sendOTP
+ sendGmail("otp", {
+  gmail: user.gmail,
+  otp: user.sensetive.otp.value,
+  expires: user.sensetive.otp.expires
+ });
+ */
 }

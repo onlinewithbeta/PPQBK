@@ -14,6 +14,7 @@ const timeFunc = {
   console.log(now, "-", expires);
   console.log("currentTime", "-", "Expiretime");
   const diffInMs = now - expires;
+  console.log(diffInMs / (1000 * 60))
   return Math.floor(diffInMs / (1000 * 60));
   //if greater than zero then has expired
  }

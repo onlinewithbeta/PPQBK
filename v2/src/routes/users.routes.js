@@ -9,7 +9,7 @@ router.post('/signin',validator.signinValidator,validator.handleValidation, user
 router.post('/signup', validator.signupValidator, validator.handleValidation, users.signup);
 router.post('/signout', users.signout);
 
-router.post('/forgotpassword', users.forgotpassword);
-router.post('/changepassword', users.changepassword);
+router.post('/forgotpassword', validator.forgotpasswordValidator, validator.handleValidation, users.forgotpassword);
+router.post('/changepassword', validator.changepasswordValidator, validator.handleValidation, users.changepassword);
 
 export default router;

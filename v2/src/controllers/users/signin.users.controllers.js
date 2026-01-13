@@ -9,7 +9,7 @@ export default async function signin(req, res) {
  try {
   //Extract the creditentials
   const { identifier, useGmail, useUsername, password } = req.body;
-  let user = null; // set useer to null
+  let user = null; // set user to null
 
   //look for user.
   if (useGmail) user = await usersFunctions.findUser.byGmail(identifier);

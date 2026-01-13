@@ -20,15 +20,15 @@ export default async function createUser(userObj) {
   sensetive: {
    accessToken: {
     value: `PPQ_${gen.generateApiKey(200)}`,
-    expires: gen.timeFunc.future(3600000)
+    expires: gen.moment.future(3600000)
    },
    sessionid: {
     value: `session_${gen.generateApiKey(10)}`,
-    expires: gen.timeFunc.future(4)
+    expires: gen.moment.future(4)
    },
    otp: {
     value: gen.randomDigits(6),
-    expires: gen.timeFunc.future(4)
+    expires: gen.moment.future(4)
    },
    password: {
    	value:hashPasswordValue,

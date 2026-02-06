@@ -39,7 +39,7 @@ export default async function createUser(userObj) {
   //wallet info
   wallet: {
    balance:0,
-   fake_balance:100,
+   fake_balance:20,
    address: gen.genWalletAddress()
   },
   transactions: [],

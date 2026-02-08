@@ -24,7 +24,7 @@ export default async function paper(req, res) {
   const currentAccessCode = await selectAccesscode(); //Get accesscode
   const pqFile = createPqFiles(currentAccessCode); //Creater Paper getter
   const examPaper = await pqFile.get(`/${course}/main/${session}.json`); //make the request
-  /*const examPaper = {
+  /*  const examPaper = {
    data: [
     {
      type: "pageInfo",
@@ -748,12 +748,13 @@ export default async function paper(req, res) {
    ]
   };*/
   const user = req.user;
+  const old_balance = user.wallet.fake_balance + user.wallet.balance;
 
   console.log(examPaper);
 
   //deduct and record
   const newFakeBalance = user.wallet.fake_balance - 1;
-  const newBalance = user.wallet.balance -1;
+  const newBalance = user.wallet.balance - 1;
   let balance;
   let mode;
 
@@ -762,15 +763,13 @@ export default async function paper(req, res) {
    mode = "Free";
    balance = newFakeBalance;
    user.wallet.fake_balance = balance;
-   
   } else if (newBalance > 0) {
    //If we have real coins
    mode = "Real";
    balance = newBalance;
    user.wallet.balance = newBalance;
-   
   } else {
-  	//No free or real Coins
+   //No free or real Coins
    throw new Error(
     "Insufficient PPQ Coins. To purchase more, please go to your dashboard."
    );
@@ -799,6 +798,8 @@ export default async function paper(req, res) {
      verified: null
     }
    },
+   new_balance: user.wallet.balance + user.wallet.fake_balance,
+   old_balance: old_balance,
    gmail: user.gmail,
    transactionid: gen.randomDigits(10),
    sessionid: user.sensetive.sessionid.value

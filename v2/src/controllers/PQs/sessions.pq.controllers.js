@@ -36,7 +36,7 @@ res.json({
   console.log("Seesions Not sent!");
   console.log(err.message);
   
-  res.json({
+  res.status(500).json({
    success: false,
    message:'Unable to get the Available sessions.'
   });

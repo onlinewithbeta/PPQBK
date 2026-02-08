@@ -67,7 +67,7 @@ export default async function paper(req, res) {
   //failed to update the Available Courses . user will jut see the old ones.
   console.log("Courses update failed!");
   console.log(err);
-  res.json({
+  res.status(500).json({
    success: false,
    message: "Failed to get exam paper"
   });

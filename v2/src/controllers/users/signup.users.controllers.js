@@ -1,7 +1,8 @@
 import usersFunctions from "../../functions/users/users.functions.js";
-//import Transactions from "../../models/transactions.models.js";
 //import Signin from "../../models/signins.models.js";
-import User from "../../models/users.models.js";
+//import User from "../../models/users.models.js";
+//import Transactions from "../../models/transactions.models.js";
+//import gen from "../../functions/generate/gen.functions.js";
 
 //import { sendGmail } from "../gmail/send.gmail.js";
 
@@ -52,46 +53,15 @@ export default async function signUp(req, res) {
 }
 
 export async function giftUsers() {
-	
- const allUsers = await User.find({});
-	
- //console.log(`We have ${allUsers.length} Users`);
- 
-for (let i = 0; i < allUsers.length; i++) {
-  let user = allUsers[i];
-  user.wallet.fake_balance = 20;
-  usersFunctions.saveUser(user);
-  console.log(user);
-  console.log(i);
- }
- 
- 
- console.log(`We have ${allUsers.length} Users`);
-
- 
- 
  /*
- const allUser = await User.find({});
-
-
-
- console.log(`We have ${allTransactions.length} allTransactions`);
-
- for (let i = 0; i < allUser.length; i++) {
-  console.log("user");
-  const user = allUser[i];
-  if(i===665) console.log(user);
-  if(i===666) console.log(user);
-  if(i===667) console.log(user);
-  
-  console.log(i);
- }
- console.log(`We have ${allUser.length} allUser`);
-
-
- 
+	//Users
+ const allUsers = await User.find({});
+ for (let i = 0; i < allUsers.length; i++) {
+  let user = allUsers[i];
   await User.findByIdAndDelete(user._id);
     console.log(`User with phone ${user.phone} deleted successfully`);
 
+ }
+ console.log(`We have ${allUsers.length} Users`);
 */
 }

@@ -31,6 +31,8 @@ async function updateavailableCourses() {
  } catch (err) {
   //failed to update the Available Courses . user will jut see the old ones.
   console.log("Courses update failed!");
+  console.log(err.message);
+  process.exit(1);
  }
 }
 //initiate  the upadte

@@ -8,7 +8,6 @@ const accesscodes = cfg.accesscodes;
 let currentAccessCode = await selectAccesscode();
 //get good access accesscode
 
-
 async function checkLimit(accesscode) {
  //checker of limts
  let checker = axios.create({
@@ -37,23 +36,25 @@ export async function selectAccesscode(c = 9) {
  for (let accesscode of accesscodes) {
   const accessible = await checkLimit(accesscode);
   if (accessible) return accesscode;
-  console.log('Not accessible')
+  console.log("Not accessible");
  }
 }
 
-export const createPqInfo = (token) => axios.create({
+export const createPqInfo = token =>
+ axios.create({
   baseURL: PQ_INFO_URL,
   headers: {
-    "User-Agent": "Express.js PPQ API Client",
-    Authorization: `token ${token}`
+   "User-Agent": "Express.js PPQ API Client",
+   Authorization: `token ${token}`
   }
-});
+ });
 
-export const createPqFiles = (token) => axios.create({
+export const createPqFiles = token =>
+ axios.create({
   baseURL: PQ_FILE_URL,
   headers: {
-    Accept: "application/vnd.github.v3.raw",
-    "User-Agent": "Express.js PPQ API Client",
-    Authorization: `token ${token}`
+   Accept: "application/vnd.github.v3.raw",
+   "User-Agent": "Express.js PPQ API Client",
+   Authorization: `token ${token}`
   }
-});
+ });

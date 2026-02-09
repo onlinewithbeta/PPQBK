@@ -7,6 +7,7 @@ export default async function userTransactions(transaction) {
   const newTransactions = new transactions(transaction);
   await newTransactions.save();
   console.log("Transaction saved");
+  console.log(newTransactions)
   return newTransactions;
   
  } catch (err) {

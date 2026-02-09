@@ -15,4 +15,3 @@ export default async function userTransactions(transaction) {
    throw new Error(err.message)
  }
 }
-

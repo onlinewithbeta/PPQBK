@@ -30,11 +30,13 @@ const transactionSchema = new mongoose.Schema({
   },
   new_balance: {
    type: Number,
-   min: [0, "Balance cannot be negative"]
+   required: true,
+   min: [0, "Amount cannot be negative"]
   },
   old_balance: {
    type: Number,
-   min: [0, "Balance cannot be negative"]
+   required: true,
+   min: [0, "Amount cannot be negative"]
   }
  },
  gmail: {

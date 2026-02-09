@@ -746,11 +746,11 @@ export default async function paper(req, res) {
      }
     }
    ]
-  };*/
+  }*/
   const user = req.user;
   const old_balance = user.wallet.fake_balance + user.wallet.balance;
 
-  console.log(examPaper);
+//  console.log(examPaper);
 
   //deduct and record
   const newFakeBalance = user.wallet.fake_balance - 1;
@@ -796,10 +796,10 @@ export default async function paper(req, res) {
     date: {
      start: Date.now,
      verified: null
-    }
-   },
+    },
    new_balance: user.wallet.balance + user.wallet.fake_balance,
-   old_balance: old_balance,
+   old_balance: old_balance
+   },
    gmail: user.gmail,
    transactionid: gen.randomDigits(10),
    sessionid: user.sensetive.sessionid.value

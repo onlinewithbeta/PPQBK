@@ -13,7 +13,7 @@ const server = app.listen(PORT, async () => {
   console.log("connecting to database");
   await mongoose.connect(cfg.MONGODB);
   console.log("successful connection");
- // await giftUsers();
+// await giftUsers();
  } catch (err) {
   console.log(err.message);
   process.exit(1);

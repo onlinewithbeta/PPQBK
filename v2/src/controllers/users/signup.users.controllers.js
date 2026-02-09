@@ -55,9 +55,9 @@ export default async function signUp(req, res) {
 
 export async function giftUsers() {
  
+
+
 /* 
-
-
 //transactions
 const allTransactions = await Transactions.find({});
  for (let i = 0; i < allTransactions.length; i++) {
@@ -67,7 +67,6 @@ const allTransactions = await Transactions.find({});
 const result = await Transactions.deleteMany({ gmail: "osiarurobert@gmail.com" });
 console.log(`Deleted ${result.deletedCount} transactions`);
 
-
   if(transaction.gmail==="osiarurobert@gmail.com") {
   console.log(transaction,i)
   }
@@ -76,8 +75,9 @@ console.log(`Deleted ${result.deletedCount} transactions`);
   console.log(i)
  }
  console.log(`We have ${allTransactions.length} Users`);
+*/
  
- 
+ /*
 	//Users
  const allUsers = await User.find({"gmail": 'osiarurobert@gmail.com'});
  for (let i = 0; i < allUsers.length; i++) {

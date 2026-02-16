@@ -12,29 +12,45 @@ let availableCourses = null;
 //update the availableCourses value
 //update will happen once as the server starts
 async function updateavailableCourses() {
- //Available Courses update initiated"
- console.log("Available Courses update initiated");
- try {
-  //fetch the courses here
-  let currentAccessCode = await selectAccesscode(); //Get our accesscode
-  const pqInfo = createPqInfo(currentAccessCode); //Create the information getter
-  const uptodateCourses = await pqInfo.get(cfg.PQDB);//Get our informations
-  
-  //Put our results in an array
-  availableCourses = uptodateCourses.data.map(repo => ({
-   name: repo.name,
-   description: repo.description
-  }));
-  //console.log(availableCourses);
-  
-  console.log("Available Courses update success!");
- } catch (err) {
-  //failed to update the Available Courses . user will jut see the old ones.
-  console.log("Courses update failed!");
-  console.log(err.message);
-  process.exit(1);
- }
+  console.log("Available Courses update initiated");
+  try {
+    let currentAccessCode = await selectAccesscode();
+    const pqInfo = createPqInfo(currentAccessCode);
+    
+    let allRepos = [];
+    let page = 1;
+    let pageSize = 100; // Max allowed by GitHub
+    
+    while (true) {
+      const response = await pqInfo.get(`${cfg.PQDB}?page=${page}&per_page=${pageSize}`);
+      const repos = response.data;
+      
+      if (repos.length === 0) break;
+      
+      allRepos = allRepos.concat(repos);
+      
+      // If we got fewer repos than requested, we're on the last page
+      if (repos.length < pageSize) break;
+      
+      page++;
+    }
+    
+    availableCourses = allRepos.map(repo => ({
+      name: repo.name,
+      description: repo.description
+    }));
+    
+    console.log(`Total courses fetched: ${availableCourses.length}`);
+    console.log("Available Courses update success!");
+    
+  } catch (err) {
+    console.log("Courses update failed!");
+    console.log(err.message);
+    process.exit(1);
+  }
 }
+
+
 //initiate  the upadte
 await updateavailableCourses();
 

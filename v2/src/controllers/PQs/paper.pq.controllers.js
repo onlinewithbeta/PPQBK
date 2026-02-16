@@ -23,8 +23,8 @@ export default async function paper(req, res) {
   //fetch the course here
   const currentAccessCode = await selectAccesscode(); //Get accesscode
   const pqFile = createPqFiles(currentAccessCode); //Creater Paper getter
-  const examPaper = await pqFile.get(`/${course}/main/${session}.json`); //make the request
-  /*  const examPaper = {
+//  const examPaper = await pqFile.get(`/${course}/main/${session}.json`); //make the request
+   const examPaper = {
    data: [
     {
      type: "pageInfo",
@@ -746,7 +746,7 @@ export default async function paper(req, res) {
      }
     }
    ]
-  }*/
+  };
   const user = req.user;
   const old_balance = user.wallet.fake_balance + user.wallet.balance;
 

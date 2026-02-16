@@ -6,7 +6,8 @@ const timeFunc = {
 
  // 2. Get date X minutes from now
  future: function (away) {
-  return new Date(Date.now() + away * 60 * 1000);
+ 	let Away = away * 60 * 1000;
+  return new Date(Date.now() + Away);
  },
 
  // 3. Get difference in minutes between two dates

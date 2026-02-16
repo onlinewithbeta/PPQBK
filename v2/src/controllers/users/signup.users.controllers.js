@@ -1,7 +1,7 @@
 import usersFunctions from "../../functions/users/users.functions.js";
 
 //import Signin from "../../models/signins.models.js";
-//import User from "../../models/users.models.js";
+import User from "../../models/users.models.js";
 //import gen from "../../functions/generate/gen.functions.js";
 import Transactions from "../../models/transactions.models.js";
 
@@ -54,40 +54,33 @@ export default async function signUp(req, res) {
 }
 
 export async function giftUsers() {
- 
-
-
-//transactions
-const allTransactions = await Transactions.find({});
+ //transactions
+ const allTransactions = await Transactions.find({});
  for (let i = 0; i < allTransactions.length; i++) {
   let transaction = allTransactions[i];
-  
-/* 
+
+ /*
   // More efficient - deletes all matching transactions in one query
 const result = await Transactions.deleteMany({ gmail: "osiarurobert@gmail.com" });
 console.log(`Deleted ${result.deletedCount} transactions`);
 */
 
-  if(transaction.gmail==="osiarurobert@gmail.com") {
-  console.log(transaction,i)
-  }
-  
-  console.log(transaction)
-  console.log(i)
- }
- console.log(`We have ${allTransactions.length} Users`);
- 
- /*
-	//Users
- const allUsers = await User.find({"gmail": 'osiarurobert@gmail.com'});
- for (let i = 0; i < allUsers.length; i++) {
-  let user = allUsers[i];
+   console.log(transaction, i);
 
-  if(user.username=="osiaru") 
-  console.log(user.studentInfo);
-// console.log(user.studentInfo.views);
-  
+//  if (transaction.userTransaction.type === "funding") 
+  //console.log(transaction)
+  //console.log(i)
  }
+ console.log(`We have ${allTransactions.length} Transactions`);
+
+ //Users
+ const allUsers = await User.find({});
+ for (let i = 0; i < allUsers.length; i++) {
+ let user = allUsers[i];
+  console.log(user, i);
+ }
+ 
  console.log(`We have ${allUsers.length} Users`);
-*/ 
+ 
+ 
 }

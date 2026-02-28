@@ -47,9 +47,9 @@ const signupValidator = [
   .trim()
   .isLength({
    min: 3,
-   max: 10
+   max: 50
   })
-  .withMessage("Please use an abbrevation like SSLT, BMS, ENG,etc...")
+  .withMessage("Faculty too long !!  Please use an abbrevation like SSLT, BMS, ENG,etc...")
   .matches(/^[a-zA-Z]+$/)
   .withMessage("Faculty can only contain letters"),
 
@@ -58,9 +58,9 @@ const signupValidator = [
   .trim()
   .isLength({
    min: 3,
-   max: 10
+   max: 50
   })
-  .withMessage("Please use an abbrevation like BCT, PHARM, ELECT,etc...")
+  .withMessage("Department too long !! Please use an abbrevation like BCT, PHARM, ELECT,etc...")
   .matches(/^[a-zA-Z]+$/)
   .withMessage("Department can only contain letters"),
 

@@ -125,20 +125,19 @@ try {
 //export default exportUsersToVCF;
 
 async function maintainDB() {
+ let inactiveUsers = [];
  //transactions
  const allTransactions = await Transactions.find({});
-/*
- for (let g = 0; g < 40; g++) {
+
+ for (let g = 0; g < 90; g++) {
   let day = [];
 
   for (let i = 0; i < allTransactions.length; i++) {
    let transaction = allTransactions[i];
 
-   
-  // More efficient - deletes all matching transactions in one query
-const result = await Transactions.deleteMany({ gmail: "osiarurobert@gmail.com" });
-console.log(`Deleted ${result.deletedCount} transactions`);
-
+   // More efficient - deletes all matching transactions in one query
+   //const result = await Transactions.deleteMany({ gmail: "osiarurobert@gmail.com" });
+   //console.log(`Deleted ${result.deletedCount} transactions`);
 
    const interval = gen.moment.diff(
     transaction.userTransaction.date.initiated,
@@ -154,15 +153,17 @@ console.log(`Deleted ${result.deletedCount} transactions`);
      time: transaction.userTransaction.date.initiated
     };
     day.push(details);
-   // console.log(details)
+    if (g < 1) console.log(details);
    }
   }
 
-  console.log(gen.moment.future(-g * 60 * 24), day.length);
+  console.log(gen.moment.future(-g * 60 * 24), `$${day.length}.00 `);
  }
-*/
+ 
+ //console.clear();
+
  //Users
- console.log("Getting users")
+ console.log("Getting users");
  const allUsers = await User.find({});
  let active1 = 0;
  let active2 = 0;
@@ -170,47 +171,95 @@ console.log(`Deleted ${result.deletedCount} transactions`);
  let active4 = 0;
  let active5 = 0;
  let active6 = 0;
+
+ console.log("analy users");
+ let limit = 0;
  
- console.log("analy users")
  for (let i = 0; i < allUsers.length; i++) {
   let user = allUsers[i];
- // await fetch(`http://localhost:2030/otp?gmail=${user.gmail}`);
-  //await fetch(`http://localhost:2030/otp?gmail="osiarurobert@gmail.com`);
-  //console.log(`${i} sent`)
-   
- // Gift course rep
-  if (user.studentInfo.views.length>0) active1++;
-  if (user.studentInfo.views.length>1) active2++;
-  if (user.studentInfo.views.length>2) active3++;
-  if (user.studentInfo.views.length>3) active4++;
-  if (user.studentInfo.views.length>4) active5++;
-  if (user.studentInfo.views.length>5) {
-  	active6++;
-  	console.log("_______________")
-  	console.log("_______________")
-  	console.log("_______________")
-  	console.log("_______________")
-  	
-  	console.log({
-  		name : user.username,
-  		phone : user.phone,
-  		dept : user.studentInfo.department,
-  		faculty : user.studentInfo.faculty,
-  		id : user.studentInfo.matno
-  		})
-  	console.log(`user.signins ${user.signins.length}`)
-  	console.log(`user.studentInfo.views ${user.studentInfo.views.length}`)
-  }
- }
 
+  // Gift course rep
+  if (user.signins.length < 3) active1++;
+  
+  /*{
+   if (i > 1318) {
+   	
+   	limit++;
+    console.log(` limit : ${limit}`);
+   	if(limit>170) throw new Error("limit reached")
+
+    active1++;
+    console.log(`${i} sent`);
+    await fetch(`http://localhost:2030/otp?username=${user.username}&&gmail=${user.gmail}`);
+    //await fetch(`http://localhost:2030/otp?gmail=${user.gmail}`);
+    console.log(`User ${user.gmail} phone ${user.phone}, from${user.studentInfo.department} has ${user.wallet.balance} and ${user.wallet.fake_balance}`)
+   }
+  }
+*/
+
+  if (user.wallet.fake_balance < 20) active2++;
+  if (user.studentInfo.views.length > 0) active3++;
+  if (user.signins.length > 0) {
+   active4++;
+   if (user.studentInfo.views.length === 0) {
+    console.log("____________________________")
+    console.log({
+     username: user.username,
+     dept: user.studentInfo.department,
+     phone: user.phone,
+     no: user.studentInfo.matno
+    });
+    console.log("____________________________")
+   }
+  }
+
+  if (user.studentInfo.views.length > 20) active5++;
+  if (user.wallet.fake_balance > 300) {
+   active6++;
+   console.log("_______________");
+   console.log("_______________");
+   console.log("_______________");
+   console.log("_______________");
+
+   console.log({
+    //		name : user.username,
+    phone: user.phone,
+    dept: user.studentInfo.department,
+    //				faculty : user.studentInfo.faculty,
+    wallet: [user.wallet.balance, user.wallet.fake_balance],
+    id: user.studentInfo.matno,
+    views: [
+     user.studentInfo.views.length,
+     user.studentInfo.views[user.studentInfo.views.length - 1],
+     user.studentInfo.views[0]
+    ]
+   });
+   //console.log(`user.signins ${user.signins.length}`)
+   //	console.log(`user.studentInfo.views ${[]}`)
+  }
+  
+ }
  console.log(`We have ${allTransactions.length} Transactions`);
  console.log(`We have ${allUsers.length} Users`);
  console.log(`We have ${active1} active1 Users`);
- console.log(`We have ${active2} active2 Users`);
- console.log(`We have ${active3} active3 Users`);
- console.log(`We have ${active4} active4 Users`);
+ console.log(`We have ${active2} Users used tokens`);
+ console.log(`We have ${active3} Users viewed course`);
+ console.log(`We have ${active4} Users signin`);
  console.log(`We have ${active5} active5 Users`);
  console.log(`We have ${active6} active6 Users`);
+ console.log(inactiveUsers);
+
+
+ //A User
+ 
+ const aUsers = await User.find({gmail:""});
+ console.log(aUsers);
+// console.log(aUsers[0].sensetive.password.value);
+ 
+ // const hashPasswordValue = await gen.passwordFunc.hasher('Samuel05');
+  //aUsers[0].gmail = 'bariyacynthia@gmail.com';
+ //await usersFunctions.saveUser(aUsers[0]);
+ 
 }
 
 export default maintainDB;

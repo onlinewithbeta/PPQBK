@@ -124,7 +124,58 @@ try {
 
 //export default exportUsersToVCF;
 
-async function maintainDB() {
+async function userFunc() {
+ //Users
+ console.log("Getting users");
+ const allUsers = await User.find({});
+ let active1 = 0;
+ let active2 = 0;
+ let active3 = 0;
+ let active4 = 0;
+ let active5 = 0;
+ let active6 = 0;
+
+ console.log("analy users");
+ let limit = 0;
+
+ for (let i = 0; i < allUsers.length; i++) {
+ console.log(i)
+ 	
+  let user = allUsers[i];
+  // Gift course rep
+  if (user.signins.length > 0) active1++;
+  if (user.signins.length === 0) active2++;
+  if (user.wallet.fake_balance < 5) active3++;
+  if (user.wallet.fake_balance > 18) active4++;
+  if (user.studentInfo.views.length > 0) active5++;
+  if (user.studentInfo.views.length < 1) active6++;
+  
+/*
+   if (i > 1318) {
+   	
+   	limit++;
+    console.log(` limit : ${limit}`);
+   	if(limit>170) throw new Error("limit reached")
+
+    active1++;
+    console.log(`${i} sent`);
+    await fetch(`http://localhost:2030/otp?username=${user.username}&&gmail=${user.gmail}`);
+    //await fetch(`http://localhost:2030/otp?gmail=${user.gmail}`);
+    console.log(`User ${user.gmail} phone ${user.phone}, from${user.studentInfo.department} has ${user.wallet.balance} and ${user.wallet.fake_balance}`)
+   }
+   */
+ }
+
+ console.log(`We have ${allUsers.length} Users`);
+ console.log(`We have ${active1} User signin`);
+ console.log(`We have ${active2} no signin`);
+ console.log(`We have ${active3} User viewed many courses`);
+ console.log(`We have ${active4} User no/little view course`);
+ console.log(`We have ${active5} no view user`);
+ console.log(`We have ${active6} users has view`);
+}
+
+async function transactionFunc() {
  let inactiveUsers = [];
  //transactions
  const allTransactions = await Transactions.find({});
@@ -159,107 +210,34 @@ async function maintainDB() {
 
   console.log(gen.moment.future(-g * 60 * 24), `$${day.length}.00 `);
  }
- 
- //console.clear();
 
- //Users
- console.log("Getting users");
- const allUsers = await User.find({});
- let active1 = 0;
- let active2 = 0;
- let active3 = 0;
- let active4 = 0;
- let active5 = 0;
- let active6 = 0;
-
- console.log("analy users");
- let limit = 0;
- 
- for (let i = 0; i < allUsers.length; i++) {
-  let user = allUsers[i];
-
-  // Gift course rep
-  if (user.signins.length < 3) active1++;
-  
-  /*{
-   if (i > 1318) {
-   	
-   	limit++;
-    console.log(` limit : ${limit}`);
-   	if(limit>170) throw new Error("limit reached")
-
-    active1++;
-    console.log(`${i} sent`);
-    await fetch(`http://localhost:2030/otp?username=${user.username}&&gmail=${user.gmail}`);
-    //await fetch(`http://localhost:2030/otp?gmail=${user.gmail}`);
-    console.log(`User ${user.gmail} phone ${user.phone}, from${user.studentInfo.department} has ${user.wallet.balance} and ${user.wallet.fake_balance}`)
-   }
-  }
-*/
-
-  if (user.wallet.fake_balance < 20) active2++;
-  if (user.studentInfo.views.length > 0) active3++;
-  if (user.signins.length > 0) {
-   active4++;
-   if (user.studentInfo.views.length === 0) {
-    console.log("____________________________")
-    console.log({
-     username: user.username,
-     dept: user.studentInfo.department,
-     phone: user.phone,
-     no: user.studentInfo.matno
-    });
-    console.log("____________________________")
-   }
-  }
-
-  if (user.studentInfo.views.length > 20) active5++;
-  if (user.wallet.fake_balance > 300) {
-   active6++;
-   console.log("_______________");
-   console.log("_______________");
-   console.log("_______________");
-   console.log("_______________");
-
-   console.log({
-    //		name : user.username,
-    phone: user.phone,
-    dept: user.studentInfo.department,
-    //				faculty : user.studentInfo.faculty,
-    wallet: [user.wallet.balance, user.wallet.fake_balance],
-    id: user.studentInfo.matno,
-    views: [
-     user.studentInfo.views.length,
-     user.studentInfo.views[user.studentInfo.views.length - 1],
-     user.studentInfo.views[0]
-    ]
-   });
-   //console.log(`user.signins ${user.signins.length}`)
-   //	console.log(`user.studentInfo.views ${[]}`)
-  }
-  
- }
  console.log(`We have ${allTransactions.length} Transactions`);
- console.log(`We have ${allUsers.length} Users`);
- console.log(`We have ${active1} active1 Users`);
- console.log(`We have ${active2} Users used tokens`);
- console.log(`We have ${active3} Users viewed course`);
- console.log(`We have ${active4} Users signin`);
- console.log(`We have ${active5} active5 Users`);
- console.log(`We have ${active6} active6 Users`);
  console.log(inactiveUsers);
+}
 
-
+async function aUser(userIdU,i) {
  //A User
+ //let aUsers = await User.find({ gmail: "" });
+// aUsers = aUsers[0];
+// console.log(aUsers);
  
- const aUsers = await User.find({gmail:""});
- console.log(aUsers);
-// console.log(aUsers[0].sensetive.password.value);
- 
+ // console.log(aUsers[0].sensetive.password.value);
+
  // const hashPasswordValue = await gen.passwordFunc.hasher('Samuel05');
-  //aUsers[0].gmail = 'bariyacynthia@gmail.com';
+ //aUsers[0].gmail = '';
  //await usersFunctions.saveUser(aUsers[0]);
- 
+
+ // If you have the user ID
+ console.log(i)
+ const userId = userIdU._id; // Replace with actual ID
+ const deletedUser = await User.findByIdAndDelete(userId);
+ console.log("Deleted user:", deletedUser);
+}
+
+async function maintainDB() {
+ console.clear();
+ await transactionFunc()
+ await userFunc()
 }
 
 export default maintainDB;

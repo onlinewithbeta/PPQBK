@@ -5,7 +5,7 @@ export default async function apikeyMiddleware(req, res, next) {
   const APIKEY = getApiKey(req.headers);
 
   if (!APIKEY) {
-   res.status(407).json({
+   res.status(404).json({
     error: "API key required",
     code: "MISSING_API_KEY"
    });

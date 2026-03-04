@@ -5,7 +5,7 @@ export default async function apikeyMiddleware(req, res, next) {
   const APIKEY = getApiKey(req.headers);
 
   if (!APIKEY) {
-   return res.status(407).json({
+   res.status(407).json({
     error: "API key required",
     code: "MISSING_API_KEY"
    });
@@ -16,14 +16,18 @@ export default async function apikeyMiddleware(req, res, next) {
 
   if (!user) {
    console.log("User not found");
-   throw new Error("Invalid API key Or Expired APIKEY. Please login.");
+   res.status(404).json({
+   success: false,
+   message: "Invalid API key Or Expired APIKEY. Please login"
+  });
+  // throw new Error("Invalid API key Or Expired APIKEY. Please login.");
   }
   // Attach user to request
   req.user = user;
   next();
  } catch (error) {
   console.error("API key middleware error:", error);
-  return res.status(407).json({
+  res.status(407).json({
    success: false,
    message: error.message || "Server busy. Please try again later"
   });

@@ -298,14 +298,14 @@ async function aUser(userIdU,i) {
 
 async function editUser(phone) {
  //A User
- let thisUsers = await User.find({ gmail:'osiarurobert@gmail.com' });
+ let thisUsers = await User.find({ gmail:'believerobert3@gmail.com' });
 thisUsers = thisUsers[0];
 // const hashPasswordValue = await gen.passwordFunc.hasher('Kasababe1');
 // aUsers.sensetive.password.value=hashPasswordValue;
 // await usersFunctions.saveUser(aUsers);
  
 console.log(thisUsers)
-// await aUser(thisUsers._id,5)
+await aUser(thisUsers._id,5)
  // console.log(
 
  //aUsers[0].gmail = '';
@@ -318,7 +318,7 @@ console.log(thisUsers)
 async function maintainDB() {
  console.clear();
  await transactionFunc()
-//await editUser()
+await editUser()
 }
 
 export default maintainDB;

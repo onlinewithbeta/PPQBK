@@ -81,7 +81,7 @@ const findUser = {
    return user;
   } catch (error) {
    console.error(`Error finding user by access token:`, error.message);
-   throw error;
+   return false
   }
  },
 

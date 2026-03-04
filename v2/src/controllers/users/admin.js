@@ -198,14 +198,19 @@ async function transactionFunc() {
    //Analy grow
    if (interval > 24 * 60 * g && interval < 24 * 60 * (g + 1)) {
     //Check the day.
-    let details = {
+   const   details = {
+    	j:transaction.userTransaction.type,
      user: transaction.gmail,
      description: transaction.userTransaction.description,
      time: transaction.userTransaction.date.initiated
     };
-    day.push(details);
-    if (g < 1) console.log(details);
+    
+    	day.push(details);
+     if(g===0)console.log(details)
+    
    }
+			
+   
   }
 
   console.log(gen.moment.future(-g * 60 * 24), `$${day.length}.00 `);
@@ -213,6 +218,63 @@ async function transactionFunc() {
 
  console.log(`We have ${allTransactions.length} Transactions`);
  console.log(inactiveUsers);
+}
+
+
+async function analyzeUsers() {
+  const allTransactions = await Transactions.find({}); // your existing fetch
+
+  // 1. Group transactions by user
+  const userMap = new Map(); // key: email, value: { email, transactions: [], count100: 0, count200: 0 }
+
+  for (const txn of allTransactions) {
+    const email = txn.gmail;
+    const desc = txn.userTransaction.description || '';
+
+    // Determine level based on 5th character (index 4)
+    let level = 'other';
+    if (desc.length >= 5) {
+      const fifthChar = desc[4]; // zero-based index 4 = 5th character
+      if (fifthChar === '2') level = '200L';
+      else if (fifthChar === '1' || fifthChar === '3') level = '100L';
+    }
+
+    // Prepare user entry if not exists
+    if (!userMap.has(email)) {
+      userMap.set(email, {
+        email,
+        transactions: [],
+        count100: 0,
+        count200: 0,
+      });
+    }
+    const userData = userMap.get(email);
+    userData.transactions.push({
+      ...txn.userTransaction,
+      level, // add level info
+    });
+    if (level === '100L') userData.count100++;
+    else if (level === '200L') userData.count200++;
+  }
+
+  // 2. Convert map to array and sort users (example: by total transactions descending)
+  const users = Array.from(userMap.values());
+  users.sort((a, b) => {
+    const totalA = a.count100 + a.count200;
+    const totalB = b.count100 + b.count200;
+    return totalB - totalA; // descending
+  });
+
+  // 3. Output results
+  console.log(`Total users: ${users.length}`);
+  for (const user of users) {
+    console.log(`\nUser: ${user.email}`);
+    console.log(`  100L: ${user.count100} transactions`);
+    console.log(`  200L: ${user.count200} transactions`);
+    console.log(`  Total: ${user.count100 + user.count200}`);
+    // Optionally list a few sample transactions
+    // console.log('  Samples:', user.transactions.slice(0, 3).map(t => t.description));
+  }
 }
 
 async function aUser(userIdU,i) {
@@ -234,10 +296,29 @@ async function aUser(userIdU,i) {
  console.log("Deleted user:", deletedUser);
 }
 
+async function editUser(phone) {
+ //A User
+ let thisUsers = await User.find({ gmail:'osiarurobert@gmail.com' });
+thisUsers = thisUsers[0];
+// const hashPasswordValue = await gen.passwordFunc.hasher('Kasababe1');
+// aUsers.sensetive.password.value=hashPasswordValue;
+// await usersFunctions.saveUser(aUsers);
+ 
+console.log(thisUsers)
+// await aUser(thisUsers._id,5)
+ // console.log(
+
+ //aUsers[0].gmail = '';
+ //
+
+ // If you have the user ID
+ 
+}
+
 async function maintainDB() {
  console.clear();
  await transactionFunc()
- await userFunc()
+//await editUser()
 }
 
 export default maintainDB;

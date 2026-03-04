@@ -5,7 +5,7 @@ export default async function apikeyMiddleware(req, res, next) {
   const APIKEY = getApiKey(req.headers);
 
   if (!APIKEY) {
-   return res.status(404).json({
+   return res.status(407).json({
     error: "API key required",
     code: "MISSING_API_KEY"
    });
@@ -23,7 +23,7 @@ export default async function apikeyMiddleware(req, res, next) {
   next();
  } catch (error) {
   console.error("API key middleware error:", error);
-  return res.status(404).json({
+  return res.status(407).json({
    success: false,
    message: error.message || "Server busy. Please try again later"
   });

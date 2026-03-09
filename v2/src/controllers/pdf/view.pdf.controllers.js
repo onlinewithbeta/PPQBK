@@ -40,6 +40,10 @@ async function view(req, res){
   // Send the command and get the response from S3
   const response = await s3.send(command);
 
+  //Debit the viewer and credit the author
+await debitCredit(req.user.username, filename);
+
+
   // Set the response headers to indicate it's a PDF file
   res.setHeader("Content-Type", "application/pdf");
 
@@ -62,20 +66,18 @@ async function view(req, res){
    }
   });
   
-  //Debit the viewer and credit the author
-await debitCredit(req.user.username, filename);
-
 
   
  } catch (err) {
   // Handle specific S3 errors
   if (err.name === "NoSuchKey") {
    // File not found in S3
-   return res.status(404).send("File not found");
+   return res.status(404).json({message :"File not ffound"});
   }
+  res.status(500).json({message :err.message});
+  
   // Handle other errors
   console.error("Error fetching file:", err);
-  res.status(500).send(err.message);
  }
 }
 

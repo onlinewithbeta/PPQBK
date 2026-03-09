@@ -56,8 +56,9 @@ await debitCredit(req.user.username, filename);
 
   // Stream the PDF data from S3 to the client
   // The Body from S3 is a ReadableStream, so we pipe it to the response
+console.log("Send pdf")
   response.Body.pipe(res);
-
+console.log("s3nt pdf")
   // Handle any errors during streaming
   response.Body.on("error", err => {
    console.error("Error streaming file:", err);

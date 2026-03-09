@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import PDF from "../../models/pdf.models.js";
 import usersFunctions from "../../functions/users/users.functions.js";
 import gen from "../../functions/generate/gen.functions.js";
+import saveFunctions from "../../functions/mongoose/save.functions.js";
 
 async function debitCredit(viewerUserName, fileID) {
  //clear ".pdf"
@@ -18,8 +19,8 @@ async function debitCredit(viewerUserName, fileID) {
  }
  //const author = await usersFunctions.findUser.byUsername("");
  const author = await usersFunctions.findUser.byUsername(pdfOBJ.info.author);
+ pdfOBJ.system_info.cost = 4;
  const cost = Number(pdfOBJ.system_info.cost);
- //pdfOBJ.system_info.cost = 4;
  /*------------------------------------------------------
 -------------------RECORD KEEPING-----------------------
 ----------------------------------------------------------*/
@@ -83,7 +84,7 @@ await usersFunctions.saveUser(author);
     status: "success",
     date: {
      start: Date.now,
-     verified: Date.now
+     verified: null
     },
    new_balance: viewer.wallet.balance + viewer.wallet.fake_balance,
    old_balance: Number(viewer.wallet.balance) + Number(viewer.wallet.fake_balance) - Number(cost),

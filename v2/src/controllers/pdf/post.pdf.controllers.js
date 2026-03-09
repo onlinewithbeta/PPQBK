@@ -30,11 +30,10 @@ async function postPdf(req, res) {
   });
  }
 let body = req.body;
- console.log(body)
 
  //Saving info
   const fileID = `${gen.randomDigits(5)}_${gen.generateApiKey(6)}`;
-
+//form the object
  const metaInfo = {
   title: body.name,
   description: body.description,
@@ -43,10 +42,8 @@ let body = req.body;
   size: body.size,
   pages: body.pages,
   id:fileID,
-  author: "ppq admin"
+  author: req.user.username
  };
- 
- console.log(metaInfo)
  
  // Now you can create a stream from the file path
  const fileStream = fs.createReadStream(file.path);
@@ -59,10 +56,10 @@ let body = req.body;
  };
 
  try {
-  //Save to pdf db
+  //Save info to Mongodb
  const pdfOBJ =  await formatPDF(metaInfo);
 
-
+  //Save pdf to s3
   const command = new PutObjectCommand(params);
   await s3.send(command);
 

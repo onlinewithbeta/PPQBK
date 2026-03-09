@@ -3,6 +3,8 @@ import{
  GetObjectCommand
 } from "@aws-sdk/client-s3";
 
+import debitCredit from "./debitcredit.pdf.conrollers.js";
+
 // Initialize S3 Client with credentials from environment variables
 const s3 = new S3Client({
  region: process.env.AWS_REGION,
@@ -59,6 +61,12 @@ async function view(req, res){
     res.status(500).send("Error streaming file");
    }
   });
+  
+  //Debit the viewer and credit the author
+await debitCredit(req.user.username, filename);
+
+
+  
  } catch (err) {
   // Handle specific S3 errors
   if (err.name === "NoSuchKey") {
@@ -70,5 +78,7 @@ async function view(req, res){
   res.status(500).send(err.message);
  }
 }
+
+
 
 export default view;

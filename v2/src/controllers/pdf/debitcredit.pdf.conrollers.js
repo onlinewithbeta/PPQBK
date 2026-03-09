@@ -19,7 +19,7 @@ async function debitCredit(viewerUserName, fileID) {
  }
  //const author = await usersFunctions.findUser.byUsername("");
  const author = await usersFunctions.findUser.byUsername(pdfOBJ.info.author);
- pdfOBJ.system_info.cost = 4;
+ //pdfOBJ.system_info.cost = 4;
  const cost = Number(pdfOBJ.system_info.cost);
  /*------------------------------------------------------
 -------------------RECORD KEEPING-----------------------

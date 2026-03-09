@@ -5,8 +5,9 @@ import apikeyMiddleware from '../middleware/accesskey.middlewares.js';
 const router = Router();
 
 router.get('/courses', pq.courses);
-router.use(apikeyMiddleware)
+//MOVE BACK apikey access.
 router.get('/sessions', pq.sessions);
+router.use(apikeyMiddleware)
 router.get('/paper', pq.paper);
 router.post('/subjectivemaker', pq.subjectivemaker);
 

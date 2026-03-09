@@ -139,16 +139,31 @@ async function userFunc() {
  let limit = 0;
 
  for (let i = 0; i < allUsers.length; i++) {
- console.log(i)
+ //console.log(i)
  	
   let user = allUsers[i];
   // Gift course rep
   if (user.signins.length > 0) active1++;
   if (user.signins.length === 0) active2++;
-  if (user.wallet.fake_balance < 5) active3++;
+  	
+  if (user.wallet.fake_balance < 5) {
+  active3++;
+  
+  }
+  
   if (user.wallet.fake_balance > 18) active4++;
   if (user.studentInfo.views.length > 0) active5++;
-  if (user.studentInfo.views.length < 1) active6++;
+  if (user.studentInfo.views.length < 1){
+  	//await here
+ // 	await Email(user)
+  active6++;
+  	console.log({
+  	name:user.gmail,
+  	dept:user.studentInfo.department,
+  	mat:user.studentInfo.matno,
+  	phone:user.phone
+  })
+  }
   
 /*
    if (i > 1318) {
@@ -220,6 +235,54 @@ async function transactionFunc() {
  console.log(inactiveUsers);
 }
 
+async function dailyViews() {
+  let inactiveUsers = [];
+  //transactions
+  const allTransactions = await Transactions.find({});
+
+  for (let g = 0; g < 90; g++) {
+    let day = [];
+    
+    // Calculate start and end of the target day
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() - g);
+    targetDate.setHours(0, 0, 0, 0); // Start of the day (00:00)
+    
+    const nextDay = new Date(targetDate);
+    nextDay.setDate(nextDay.getDate() + 1); // Start of next day (00:00)
+
+    for (let i = 0; i < allTransactions.length; i++) {
+      let transaction = allTransactions[i];
+      
+      const transactionDate = new Date(transaction.userTransaction.date.initiated);
+      
+      // Check if transaction date falls within the target calendar day
+      if (transactionDate >= targetDate && transactionDate < nextDay) {
+        const details = {
+          j: transaction.userTransaction.type,
+          user: transaction.gmail,
+          description: transaction.userTransaction.description,
+          time: transaction.userTransaction.date.initiated
+        };
+        
+        day.push(details);
+        if (g === 0) console.log(details);
+      }
+    }
+
+    // Format the date for display
+    const dateLabel = targetDate.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric',
+      year: 'numeric'
+    });
+    
+    console.log(`${dateLabel}:`, day.length );
+  }
+
+  console.log(`We have ${allTransactions.length} Transactions`);
+  console.log(inactiveUsers);
+}
 
 async function analyzeUsers() {
   const allTransactions = await Transactions.find({}); // your existing fetch
@@ -296,29 +359,40 @@ async function aUser(userIdU,i) {
  console.log("Deleted user:", deletedUser);
 }
 
+async function giftUser(amount) {
+	let thisUsers = await User.find({ phone:'9065095561'});
+thisUsers = thisUsers[0];
+
+thisUsers.wallet.fake_balance = thisUsers.wallet.fake_balance + amount;
+
+await usersFunctions.saveUser(thisUsers);
+
+console.log(`${thisUsers.username} has be gifted ${amount} PPQ coins`)
+}
+
+
+
 async function editUser(phone) {
  //A User
- let thisUsers = await User.find({ gmail:'believerobert3@gmail.com' });
+ let thisUsers = await User.find({ phone:'9018110915' });
 thisUsers = thisUsers[0];
+
+//Edit
 // const hashPasswordValue = await gen.passwordFunc.hasher('Kasababe1');
 // aUsers.sensetive.password.value=hashPasswordValue;
-// await usersFunctions.saveUser(aUsers);
- 
-console.log(thisUsers)
-await aUser(thisUsers._id,5)
- // console.log(
 
- //aUsers[0].gmail = '';
- //
-
- // If you have the user ID
+//save
+//await usersFunctions.saveUser(thisUsers);
  
+
 }
 
 async function maintainDB() {
  console.clear();
- await transactionFunc()
-await editUser()
+ //await transactionFunc(5)
+ //await transactionFunc()
+ //await userFunc()
+ console.log("Osiaru administration")
 }
 
 export default maintainDB;

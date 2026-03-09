@@ -2,8 +2,6 @@ import usersFunctions from "../../functions/users/users.functions.js";
 
 //import Signin from "../../models/signins.models.js";
 import User from "../../models/users.models.js";
-//import gen from "../../functions/generate/gen.functions.js";
-import Transactions from "../../models/transactions.models.js";
 
 //import { sendGmail } from "../gmail/send.gmail.js";
 
@@ -51,36 +49,4 @@ export default async function signUp(req, res) {
    message: err.message || "Something went wrong. Please try again"
   });
  }
-}
-
-export async function giftUsers() {
- //transactions
- const allTransactions = await Transactions.find({});
- for (let i = 0; i < allTransactions.length; i++) {
-  let transaction = allTransactions[i];
-
- /*
-  // More efficient - deletes all matching transactions in one query
-const result = await Transactions.deleteMany({ gmail: "osiarurobert@gmail.com" });
-console.log(`Deleted ${result.deletedCount} transactions`);
-*/
-
-   console.log(transaction, i);
-
-//  if (transaction.userTransaction.type === "funding") 
-  //console.log(transaction)
-  //console.log(i)
- }
- console.log(`We have ${allTransactions.length} Transactions`);
-
- //Users
- const allUsers = await User.find({});
- for (let i = 0; i < allUsers.length; i++) {
- let user = allUsers[i];
-  console.log(user, i);
- }
- 
- console.log(`We have ${allUsers.length} Users`);
- 
- 
 }

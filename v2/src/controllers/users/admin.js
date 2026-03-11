@@ -157,12 +157,14 @@ async function userFunc() {
   	//await here
  // 	await Email(user)
   active6++;
+  /*
   	console.log({
   	name:user.gmail,
   	dept:user.studentInfo.department,
   	mat:user.studentInfo.matno,
   	phone:user.phone
   })
+  */
   }
   
 /*
@@ -390,8 +392,8 @@ thisUsers = thisUsers[0];
 async function maintainDB() {
  console.clear();
  //await transactionFunc(5)
- //await transactionFunc()
- //await userFunc()
+ await transactionFunc()
+ await userFunc()
  console.log("Osiaru administration")
 }
 

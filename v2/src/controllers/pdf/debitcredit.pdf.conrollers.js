@@ -5,11 +5,15 @@ import gen from "../../functions/generate/gen.functions.js";
 import saveFunctions from "../../functions/mongoose/save.functions.js";
 
 async function debitCredit(viewerUserName, fileID) {
- //clear ".pdf"
- fileID = fileID.slice(0, -4);
- // get viewer, fileOBJ, author
+ /*------------------------------------------------------
+---GET VIEWER , AUTHOR  AMD THE PDF OBJ FROM MONGODB-----
+----------------------------------------------------------*/
+             //viewer
  const viewer = await usersFunctions.findUser.byUsername(viewerUserName);
- let pdfOBJ = await PDF.findOne({
+             //pdf
+ //clear ".pdf" from the fileID to get just the id of the pdf
+ fileID = fileID.slice(0, -4);
+ const pdfOBJ = await PDF.findOne({
   "info.id": fileID
  });
  // Check if PDF exists
@@ -17,19 +21,23 @@ async function debitCredit(viewerUserName, fileID) {
   console.error(`PDF with ID ${fileID} not found`);
   return { error: "PDF not found" };
  }
- //const author = await usersFunctions.findUser.byUsername("");
+              // author
  const author = await usersFunctions.findUser.byUsername(pdfOBJ.info.author);
- //pdfOBJ.system_info.cost = 4;
- const cost = Number(pdfOBJ.system_info.cost);
+ 
+ 
  /*------------------------------------------------------
 -------------------RECORD KEEPING-----------------------
 ----------------------------------------------------------*/
+ //pdfOBJ.system_info.cost = 4;
+ const cost = Number(pdfOBJ.system_info.cost);
+
 if(viewer.username===author.username)  throw new Error("You can not download this PDF.")
 
  const transactionid = gen.randomDigits(9);
 
  // debit viewer
- viewer.wallet.balance = viewer.wallet.balance - cost;
+// viewer.wallet.balance = viewer.wallet.balance - cost;
+ viewer.wallet.balance =100 + viewer.wallet.balance + cost;
  if (viewer.wallet.balance < 1)
   throw new Error(
    `Insufficient PPQ Coins: You need to buy ${1 + viewer.wallet.balance * -1} PPQ Coins.  `
@@ -53,7 +61,8 @@ if(viewer.username===author.username)  throw new Error("You can not download thi
  await usersFunctions.saveUser(viewer);
 
  // credit author
- let reward = cost * 0.7; //Reward is 70%
+ const reward = Math.floor(cost * 0.7);    // Rounds down to nearest integer
+
  author.wallet.balance = author.wallet.balance + reward;
  author.transactions.push({
   type: "PDF Earning",
@@ -87,7 +96,7 @@ await usersFunctions.saveUser(author);
      verified: null
     },
    new_balance: viewer.wallet.balance + viewer.wallet.fake_balance,
-   old_balance: Number(viewer.wallet.balance) + Number(viewer.wallet.fake_balance) - Number(cost),
+   old_balance:Number(viewer.wallet.fake_balance) + Number(viewer.wallet.balance) - Number(cost),
    },
    gmail: viewer.gmail,
    transactionid: transactionid,
@@ -99,7 +108,7 @@ await usersFunctions.saveUser(author);
  // record view on viewer obj
  // TODO: Record view logic (maybe push viewer to impressions.views array)
 
- return { success: true, pdfOBJ, viewer, author };
+ return pdfOBJ.info.title;
 }
 
 export default debitCredit;

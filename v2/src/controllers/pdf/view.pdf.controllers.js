@@ -1,7 +1,9 @@
-import{
-	S3Client,
+import {
+ S3Client,
  GetObjectCommand
 } from "@aws-sdk/client-s3";
+// Add this line
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import debitCredit from "./debitcredit.pdf.conrollers.js";
 
@@ -16,72 +18,48 @@ const s3 = new S3Client({
 
 async function view(req, res){
  try {
- 		 	console.log(`${req.user.username} wants to view a course!`)
+    console.log(`${req.user.username} wants to view a course!`);
 
- 	console.log(`${req.user.username} wants to view a course!`)
+    // Get the filename from the URL parameter
+    const filename = req.params.id;
+    console.log(filename)
 
-  // Get the filename from the URL parameter
-  const filename = req.params.id;
-  console.log(filename)
-  //const filename ="1772841376014-1772734082426-yr1.pdf";
+    // Construct the full S3 key (path) where the file is stored
+    const key = `pdfs/${filename}`;
 
-  // Construct the full S3 key (path) where the file is stored
-  const key = `pdfs/${filename}`;
+    // Debit the viewer and credit the author (Keep your business logic here)
+   const fileTile =  await debitCredit(req.user.username, filename);
 
-  // Prepare parameters to get the file from S3
-  const params = {
-   Bucket: process.env.AWS_BUCKET_NAME,
-   Key: key
-  };
+    // Prepare parameters for the GetObject command
+    // In your backend controller
+const command = new GetObjectCommand({
+  Bucket: process.env.AWS_BUCKET_NAME,
+  Key: key,
+  ResponseContentDisposition: `attachment; filename="PPQ_${fileTile}"` // Force filename
+});
 
-  // Create command to get the object from S3
-  const command = new GetObjectCommand(params);
+const signedUrl = await getSignedUrl(s3, command, { 
+  expiresIn: 60 
+});
+    console.log("Generated one-time download link:", signedUrl);
 
-  // Send the command and get the response from S3
-  const response = await s3.send(command);
+    // Send the URL back to the client
+    return res.status(200).json({ 
+        url: signedUrl,
+        expiresIn: 60,
+        message: "This link will expire in 60 seconds and can be used to download the file directly from S3."
+    });
 
-  //Debit the viewer and credit the author
-await debitCredit(req.user.username, filename);
-
-
-  // Set the response headers to indicate it's a PDF file
-  res.setHeader("Content-Type", "application/pdf");
-
-  // Set Content-Disposition to tell browser to display PDF (inline) or download (attachment)
-  // Using 'inline' makes the browser display the PDF directly
-  res.setHeader("Content-Disposition", `inline; filename="${filename}"`);
-
-  // If you want to force download instead of display, use:
-  // res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-
-  // Stream the PDF data from S3 to the client
-  // The Body from S3 is a ReadableStream, so we pipe it to the response
-console.log("Send pdf")
-  response.Body.pipe(res);
-console.log("s3nt pdf")
-  // Handle any errors during streaming
-  response.Body.on("error", err => {
-   console.error("Error streaming file:", err);
-   if (!res.headersSent) {
-    res.status(500).send("Error streaming file");
-   }
-  });
-  
-
-  
  } catch (err) {
-  // Handle specific S3 errors
-  if (err.name === "NoSuchKey") {
-   // File not found in S3
-   return res.status(404).json({message :"File not ffound"});
-  }
-  res.status(500).json({message :err.message});
-  
-  // Handle other errors
-  console.error("Error fetching file:", err);
+    // Handle specific S3 errors
+    if (err.name === "NoSuchKey") {
+        // File not found in S3
+        return res.status(404).json({message :"File not found"});
+    }
+
+    // Handle other errors
+    console.error("Error generating signed URL:", err);
+    return res.status(500).json({message :err.message});
  }
 }
-
-
-
 export default view;

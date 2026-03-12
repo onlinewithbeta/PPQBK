@@ -31,7 +31,7 @@ async function debitCredit(viewerUserName, fileID) {
  //pdfOBJ.system_info.cost = 4;
  const cost = Number(pdfOBJ.system_info.cost);
 
-if(viewer.username===author.username)  throw new Error("You can not download this PDF.")
+if(viewer.username===author.username)  throw new Error(`Sorry, Your account can not download the PDfs it uploaded!`)
 
  const transactionid = gen.randomDigits(9);
 

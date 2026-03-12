@@ -36,8 +36,8 @@ if(viewer.username===author.username)  throw new Error("You can not download thi
  const transactionid = gen.randomDigits(9);
 
  // debit viewer
-// viewer.wallet.balance = viewer.wallet.balance - cost;
- viewer.wallet.balance =100 + viewer.wallet.balance + cost;
+ viewer.wallet.balance = viewer.wallet.balance - cost;
+// viewer.wallet.balance =100 + viewer.wallet.balance + cost;
  if (viewer.wallet.balance < 1)
   throw new Error(
    `Insufficient PPQ Coins: You need to buy ${1 + viewer.wallet.balance * -1} PPQ Coins.  `
@@ -108,7 +108,10 @@ await usersFunctions.saveUser(author);
  // record view on viewer obj
  // TODO: Record view logic (maybe push viewer to impressions.views array)
 
- return pdfOBJ.info.title;
+ return {
+ 	t:pdfOBJ.info.title,
+ 	c:pdfOBJ.info.course,
+ }
 }
 
 export default debitCredit;

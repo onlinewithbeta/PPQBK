@@ -13,13 +13,11 @@ const upload = multer({
 });
 
 //endpoints
-//router.get('/', pdf.list);
-
+router.get('/', pdf.listAllCourses);
 router.use(apikeyMiddleware)
 router.get('/:id', pdf.view);
 router.post('/upload', upload.single("pdf"), pdf.post);
-
-///////////////router.delete('/pdf/:id', pq.deletePdf);
+//router.delete('/pdf/:id', pq.deletePdf);
 
 
 export default router;

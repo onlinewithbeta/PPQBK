@@ -394,6 +394,7 @@ async function maintainDB() {
  //await transactionFunc(5)
  await transactionFunc()
  await userFunc()
+await dailyViews()
  console.log("Osiaru administration")
 }
 

@@ -8,12 +8,13 @@ import saveUserSign from "../../models/signins.models.js";
 export default async function signin(req, res) {
  try {
   //Extract the creditentials
-  const { identifier, useGmail, useUsername, password } = req.body;
+  const { identifier, useGmail, useUsername, usePhone, password } = req.body;
   let user = null; // set user to null
 
   //look for user.
   if (useGmail) user = await usersFunctions.findUser.byGmail(identifier);
   if (useUsername) user = await usersFunctions.findUser.byUsername(identifier);
+  if (usePhone) user = await usersFunctions.findUser.byPhone(identifier);
 
   //If user is not in db
   if (!user) throw new Error(" User not found");

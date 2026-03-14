@@ -15,7 +15,7 @@ const server = app.listen(PORT, async () => {
   await mongoose.connect(cfg.MONGODB);
   console.log("successful connection");
   console.clear();
-// await exportUsersToVCF();
+  //await exportUsersToVCF();
  } catch (err) {
   console.log(err.message);
   process.exit(1);

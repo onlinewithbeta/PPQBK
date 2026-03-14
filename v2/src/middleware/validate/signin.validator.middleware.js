@@ -18,6 +18,10 @@ const signinValidator = [
   body("useUsername")
   .isBoolean()
   .withMessage("useUsername must be a boolean"),
+  
+  body("usePhone")
+  .isBoolean()
+  .withMessage("usePhone must be a boolean"),
 
   body("identifier")
   .trim()
@@ -26,14 +30,18 @@ const signinValidator = [
   }) => {
     if (req.body.useGmail) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-        throw new Error("Identifier must be a valid email when using Gmail");
+        throw new Error("Please input your Gmail");
       }
     } else if (req.body.useUsername) {
       if (!/^[a-zA-Z0-9_]{3,20}$/.test(value)) {
-        throw new Error("Identifier must be a valid username (3–20 chars, alphanumeric/underscore)");
+        throw new Error("Please input your username (3–20 chars, alphanumeric/underscore)");
       }
-    } else {
-      throw new Error("Either useGmail or useUsername must be true");
+    }else if (req.body.usePhone) {
+    	if (!/^[0-9]{10}$/.test(value)) {
+        throw new Error("Please input your phone number, and remove the first zero(0) ");
+      }
+    }else {
+      throw new Error("Either useGmail,  useUsername or usePhone must be true");
     }
     return true;
   }),

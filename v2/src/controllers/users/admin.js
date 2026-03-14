@@ -139,25 +139,24 @@ async function userFunc() {
  let limit = 0;
 
  for (let i = 0; i < allUsers.length; i++) {
- //console.log(i)
- 	
+  //console.log(i)
+
   let user = allUsers[i];
   // Gift course rep
   if (user.signins.length > 0) active1++;
   if (user.signins.length === 0) active2++;
-  	
+
   if (user.wallet.fake_balance < 5) {
-  active3++;
-  
+   active3++;
   }
-  
+
   if (user.wallet.fake_balance > 18) active4++;
   if (user.studentInfo.views.length > 0) active5++;
-  if (user.studentInfo.views.length < 1){
-  	//await here
- // 	await Email(user)
-  active6++;
-  /*
+  if (user.studentInfo.views.length < 1) {
+   //await here
+   // 	await Email(user)
+   active6++;
+   /*
   	console.log({
   	name:user.gmail,
   	dept:user.studentInfo.department,
@@ -166,8 +165,8 @@ async function userFunc() {
   })
   */
   }
-  
-/*
+
+  /*
    if (i > 1318) {
    	
    	limit++;
@@ -190,6 +189,22 @@ async function userFunc() {
  console.log(`We have ${active4} User no/little view course`);
  console.log(`We have ${active5} no view user`);
  console.log(`We have ${active6} users has view`);
+}
+
+async function listF_D() {
+ //Users
+ console.log("Getting users");
+ const allUsers = await User.find({});
+
+ console.log("analysing users");
+ let limit = 0;
+
+ for (let i = 0; i < allUsers.length; i++) {
+  let user = allUsers[i];
+  console.log(user.studentInfo);
+ }
+
+ console.log(`We have ${allUsers.length} Users`);
 }
 
 async function transactionFunc() {
@@ -215,19 +230,16 @@ async function transactionFunc() {
    //Analy grow
    if (interval > 24 * 60 * g && interval < 24 * 60 * (g + 1)) {
     //Check the day.
-   const   details = {
-    	j:transaction.userTransaction.type,
+    const details = {
+     j: transaction.userTransaction.type,
      user: transaction.gmail,
      description: transaction.userTransaction.description,
      time: transaction.userTransaction.date.initiated
     };
-    
-    	day.push(details);
-     if(g===0)console.log(details)
-    
+
+    day.push(details);
+    if (g === 0) console.log(details);
    }
-			
-   
   }
 
   console.log(gen.moment.future(-g * 60 * 24), `$${day.length}.00 `);
@@ -238,116 +250,116 @@ async function transactionFunc() {
 }
 
 async function dailyViews() {
-  let inactiveUsers = [];
-  //transactions
-  const allTransactions = await Transactions.find({});
+ let inactiveUsers = [];
+ //transactions
+ const allTransactions = await Transactions.find({});
 
-  for (let g = 0; g < 90; g++) {
-    let day = [];
-    
-    // Calculate start and end of the target day
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() - g);
-    targetDate.setHours(0, 0, 0, 0); // Start of the day (00:00)
-    
-    const nextDay = new Date(targetDate);
-    nextDay.setDate(nextDay.getDate() + 1); // Start of next day (00:00)
+ for (let g = 0; g < 90; g++) {
+  let day = [];
 
-    for (let i = 0; i < allTransactions.length; i++) {
-      let transaction = allTransactions[i];
-      
-      const transactionDate = new Date(transaction.userTransaction.date.initiated);
-      
-      // Check if transaction date falls within the target calendar day
-      if (transactionDate >= targetDate && transactionDate < nextDay) {
-        const details = {
-          j: transaction.userTransaction.type,
-          user: transaction.gmail,
-          description: transaction.userTransaction.description,
-          time: transaction.userTransaction.date.initiated
-        };
-        
-        day.push(details);
-        if (g === 0) console.log(details);
-      }
-    }
+  // Calculate start and end of the target day
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() - g);
+  targetDate.setHours(0, 0, 0, 0); // Start of the day (00:00)
 
-    // Format the date for display
-    const dateLabel = targetDate.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric',
-      year: 'numeric'
-    });
-    
-    console.log(`${dateLabel}:`, day.length );
+  const nextDay = new Date(targetDate);
+  nextDay.setDate(nextDay.getDate() + 1); // Start of next day (00:00)
+
+  for (let i = 0; i < allTransactions.length; i++) {
+   let transaction = allTransactions[i];
+
+   const transactionDate = new Date(transaction.userTransaction.date.initiated);
+
+   // Check if transaction date falls within the target calendar day
+   if (transactionDate >= targetDate && transactionDate < nextDay) {
+    const details = {
+     j: transaction.userTransaction.type,
+     user: transaction.gmail,
+     description: transaction.userTransaction.description,
+     time: transaction.userTransaction.date.initiated
+    };
+
+    day.push(details);
+    if (g === 0) console.log(details);
+   }
   }
 
-  console.log(`We have ${allTransactions.length} Transactions`);
-  console.log(inactiveUsers);
+  // Format the date for display
+  const dateLabel = targetDate.toLocaleDateString("en-US", {
+   month: "short",
+   day: "numeric",
+   year: "numeric"
+  });
+
+  console.log(`${dateLabel}:`, day.length);
+ }
+
+ console.log(`We have ${allTransactions.length} Transactions`);
+ console.log(inactiveUsers);
 }
 
 async function analyzeUsers() {
-  const allTransactions = await Transactions.find({}); // your existing fetch
+ const allTransactions = await Transactions.find({}); // your existing fetch
 
-  // 1. Group transactions by user
-  const userMap = new Map(); // key: email, value: { email, transactions: [], count100: 0, count200: 0 }
+ // 1. Group transactions by user
+ const userMap = new Map(); // key: email, value: { email, transactions: [], count100: 0, count200: 0 }
 
-  for (const txn of allTransactions) {
-    const email = txn.gmail;
-    const desc = txn.userTransaction.description || '';
+ for (const txn of allTransactions) {
+  const email = txn.gmail;
+  const desc = txn.userTransaction.description || "";
 
-    // Determine level based on 5th character (index 4)
-    let level = 'other';
-    if (desc.length >= 5) {
-      const fifthChar = desc[4]; // zero-based index 4 = 5th character
-      if (fifthChar === '2') level = '200L';
-      else if (fifthChar === '1' || fifthChar === '3') level = '100L';
-    }
-
-    // Prepare user entry if not exists
-    if (!userMap.has(email)) {
-      userMap.set(email, {
-        email,
-        transactions: [],
-        count100: 0,
-        count200: 0,
-      });
-    }
-    const userData = userMap.get(email);
-    userData.transactions.push({
-      ...txn.userTransaction,
-      level, // add level info
-    });
-    if (level === '100L') userData.count100++;
-    else if (level === '200L') userData.count200++;
+  // Determine level based on 5th character (index 4)
+  let level = "other";
+  if (desc.length >= 5) {
+   const fifthChar = desc[4]; // zero-based index 4 = 5th character
+   if (fifthChar === "2") level = "200L";
+   else if (fifthChar === "1" || fifthChar === "3") level = "100L";
   }
 
-  // 2. Convert map to array and sort users (example: by total transactions descending)
-  const users = Array.from(userMap.values());
-  users.sort((a, b) => {
-    const totalA = a.count100 + a.count200;
-    const totalB = b.count100 + b.count200;
-    return totalB - totalA; // descending
+  // Prepare user entry if not exists
+  if (!userMap.has(email)) {
+   userMap.set(email, {
+    email,
+    transactions: [],
+    count100: 0,
+    count200: 0
+   });
+  }
+  const userData = userMap.get(email);
+  userData.transactions.push({
+   ...txn.userTransaction,
+   level // add level info
   });
+  if (level === "100L") userData.count100++;
+  else if (level === "200L") userData.count200++;
+ }
 
-  // 3. Output results
-  console.log(`Total users: ${users.length}`);
-  for (const user of users) {
-    console.log(`\nUser: ${user.email}`);
-    console.log(`  100L: ${user.count100} transactions`);
-    console.log(`  200L: ${user.count200} transactions`);
-    console.log(`  Total: ${user.count100 + user.count200}`);
-    // Optionally list a few sample transactions
-    // console.log('  Samples:', user.transactions.slice(0, 3).map(t => t.description));
-  }
+ // 2. Convert map to array and sort users (example: by total transactions descending)
+ const users = Array.from(userMap.values());
+ users.sort((a, b) => {
+  const totalA = a.count100 + a.count200;
+  const totalB = b.count100 + b.count200;
+  return totalB - totalA; // descending
+ });
+
+ // 3. Output results
+ console.log(`Total users: ${users.length}`);
+ for (const user of users) {
+  console.log(`\nUser: ${user.email}`);
+  console.log(`  100L: ${user.count100} transactions`);
+  console.log(`  200L: ${user.count200} transactions`);
+  console.log(`  Total: ${user.count100 + user.count200}`);
+  // Optionally list a few sample transactions
+  // console.log('  Samples:', user.transactions.slice(0, 3).map(t => t.description));
+ }
 }
 
-async function aUser(userIdU,i) {
+async function deletedUser(userIdU, i) {
  //A User
  //let aUsers = await User.find({ gmail: "" });
-// aUsers = aUsers[0];
-// console.log(aUsers);
- 
+ // aUsers = aUsers[0];
+ // console.log(aUsers);
+
  // console.log(aUsers[0].sensetive.password.value);
 
  // const hashPasswordValue = await gen.passwordFunc.hasher('Samuel05');
@@ -355,47 +367,45 @@ async function aUser(userIdU,i) {
  //await usersFunctions.saveUser(aUsers[0]);
 
  // If you have the user ID
- console.log(i)
+ console.log(i);
  const userId = userIdU._id; // Replace with actual ID
  const deletedUser = await User.findByIdAndDelete(userId);
  console.log("Deleted user:", deletedUser);
 }
 
 async function giftUser(amount) {
-	let thisUsers = await User.find({ phone:'9065095561'});
-thisUsers = thisUsers[0];
+ let thisUsers = await User.find({ phone: "9065095561" });
+ thisUsers = thisUsers[0];
 
-thisUsers.wallet.fake_balance = thisUsers.wallet.fake_balance + amount;
+ thisUsers.wallet.fake_balance = thisUsers.wallet.fake_balance + amount;
 
-await usersFunctions.saveUser(thisUsers);
+ await usersFunctions.saveUser(thisUsers);
 
-console.log(`${thisUsers.username} has be gifted ${amount} PPQ coins`)
+ console.log(`${thisUsers.username} has be gifted ${amount} PPQ coins`);
 }
-
-
 
 async function editUser(phone) {
  //A User
- let thisUsers = await User.find({ phone:'9018110915' });
-thisUsers = thisUsers[0];
+ let thisUsers = await User.find({ phone: "8136907706" });
+ thisUsers = thisUsers[0];
+ console.log(thisUsers);
+ //Edit
+ // const hashPasswordValue = await gen.passwordFunc.hasher('Kasababe1');
+ // aUsers.sensetive.password.value=hashPasswordValue;
 
-//Edit
-// const hashPasswordValue = await gen.passwordFunc.hasher('Kasababe1');
-// aUsers.sensetive.password.value=hashPasswordValue;
-
-//save
-//await usersFunctions.saveUser(thisUsers);
- 
-
+ //save
+ //await usersFunctions.saveUser(thisUsers);
 }
 
 async function maintainDB() {
  console.clear();
  //await transactionFunc(5)
- await transactionFunc()
- await userFunc()
-await dailyViews()
- console.log("Osiaru administration")
+ // await transactionFunc()
+ // await userFunc()
+ //await editUser()
+
+ await listF_D();
+ console.log("Osiaru administration");
 }
 
 export default maintainDB;

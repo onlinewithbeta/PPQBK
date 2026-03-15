@@ -111,6 +111,11 @@ await usersFunctions.saveUser(author);
  return {
  	t:pdfOBJ.info.title,
  	c:pdfOBJ.info.course,
+ 	user:{
+ 		a:viewer.sensetive.accessToken.value,
+ 		w:viewer.wallet.address,
+ 		b:viewer.wallet.balance
+ 	}
  }
 }
 

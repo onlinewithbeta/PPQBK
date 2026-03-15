@@ -16,7 +16,7 @@ export default async function forgotpassword(req, res) {
   
   res.send({
    success: true,
-   message: `You OTP has been sent to ${gmail} `
+   message: `A unique link to reset your password has been sent to ${gmail} `
   });
   
   //try to catch any errorr

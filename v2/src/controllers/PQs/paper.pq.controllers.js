@@ -24,7 +24,7 @@ export default async function paper(req, res) {
   const currentAccessCode = await selectAccesscode(); //Get accesscode
   const pqFile = createPqFiles(currentAccessCode); //Creater Paper getter
   const examPaper = await pqFile.get(`/${course}/main/${session}.json`); //make the request
-/*   const examPaper = {
+  /*   const examPaper = {
    data: [
     {
      type: "pageInfo",
@@ -747,10 +747,10 @@ export default async function paper(req, res) {
     }
    ]
   };*/
-  const user = req.user;
+  let user = req.user;
   const old_balance = user.wallet.fake_balance + user.wallet.balance;
 
-//  console.log(examPaper);
+  //  console.log(examPaper);
 
   //deduct and record
   const newFakeBalance = user.wallet.fake_balance - 1;
@@ -783,7 +783,7 @@ export default async function paper(req, res) {
    item: `${course} ${session} _${mode}`
   };
   user.studentInfo.views.unshift(payLoad);
-  await usersFunctions.saveUser(user);
+  user = await usersFunctions.saveUser(user);
 
   //save globally
 
@@ -797,8 +797,8 @@ export default async function paper(req, res) {
      start: Date.now,
      verified: null
     },
-   new_balance: user.wallet.balance + user.wallet.fake_balance,
-   old_balance: old_balance
+    new_balance: user.wallet.balance + user.wallet.fake_balance,
+    old_balance: old_balance
    },
    gmail: user.gmail,
    transactionid: gen.randomDigits(10),
@@ -813,7 +813,7 @@ export default async function paper(req, res) {
    data: examPaper.data,
    user: {
     accessToken: user.sensetive.accessToken.value,
-    balance: balance,
+    balance: user.wallet.balance + user.wallet.fake_balance,
     wallet: user.wallet.address
    }
   });

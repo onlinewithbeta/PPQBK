@@ -5,7 +5,7 @@ import cfg from "../../cfg.js";
 export default async function otpUser(user) {
  //Reset otp
  let otp = user.sensetive.otp;
- 
+
  console.log(otp);
  otp = {
   value: gen.randomDigits(6),
@@ -17,9 +17,12 @@ export default async function otpUser(user) {
 
  //save user
  usersFunctions.saveUser(user);
-let sendOTPeq = await fetch(`${cfg.emailer}/otp?gmail=${encodeURIComponent(user.gmail)}&otp=${encodeURIComponent(otp.value)}`);
+ //Dev cfg.emailer = "http://localhost:2030";
+ let sendOTPeq = await fetch(
+  `${cfg.emailer}/otp?gmail=${encodeURIComponent(user.gmail)}&username=${encodeURIComponent(user.username)}&otp=${encodeURIComponent(otp.value)}`
+ );
 
-/*
+ /*
  //sendOTP
  sendGmail("otp", {
   gmail: user.gmail,

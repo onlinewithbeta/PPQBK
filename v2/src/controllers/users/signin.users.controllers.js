@@ -62,7 +62,8 @@ export default async function signin(req, res) {
   res.status(200).json({
    success: true,
    message: `Welcome back, ${user.username}`,
-   userinfo: {
+   user: {
+   	gmail:user.gmail,
     accessToken: user.sensetive.accessToken.value,
     balance: user.wallet.balance + user.wallet.fake_balance,
     wallet: user.wallet.address

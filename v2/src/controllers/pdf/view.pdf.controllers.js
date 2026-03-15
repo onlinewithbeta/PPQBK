@@ -43,6 +43,11 @@ async function view(req, res) {
   // Send the URL back to the client
   return res.status(200).json({
    url: signedUrl,
+   user: {
+    accessToken: fileTile.user.a,
+    wallet: fileTile.user.w,
+    balance: fileTile.user.b
+   },
    expiresIn: 60,
    message:
     "This link will expire in 60 seconds and can be used to download the file directly from S3."

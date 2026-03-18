@@ -301,56 +301,24 @@ async function dailyViews() {
 async function analyzeUsers() {
  const allTransactions = await Transactions.find({}); // your existing fetch
 
+ let yr1 = 0;
+ let yr2 = 0;
+ let yr3 = 0;
+
  // 1. Group transactions by user
- const userMap = new Map(); // key: email, value: { email, transactions: [], count100: 0, count200: 0 }
+ const userMap = new Map();
 
  for (const txn of allTransactions) {
   const email = txn.gmail;
   const desc = txn.userTransaction.description || "";
 
-  // Determine level based on 5th character (index 4)
-  let level = "other";
-  if (desc.length >= 5) {
    const fifthChar = desc[4]; // zero-based index 4 = 5th character
-   if (fifthChar === "2") level = "200L";
-   else if (fifthChar === "1" || fifthChar === "3") level = "100L";
+  // Determine level based on 5th character (index 4)
+
+  if (txn.userTransaction.type === "funding") {
+  	console.log(txn.userTransaction.gmail);
   }
-
-  // Prepare user entry if not exists
-  if (!userMap.has(email)) {
-   userMap.set(email, {
-    email,
-    transactions: [],
-    count100: 0,
-    count200: 0
-   });
-  }
-  const userData = userMap.get(email);
-  userData.transactions.push({
-   ...txn.userTransaction,
-   level // add level info
-  });
-  if (level === "100L") userData.count100++;
-  else if (level === "200L") userData.count200++;
- }
-
- // 2. Convert map to array and sort users (example: by total transactions descending)
- const users = Array.from(userMap.values());
- users.sort((a, b) => {
-  const totalA = a.count100 + a.count200;
-  const totalB = b.count100 + b.count200;
-  return totalB - totalA; // descending
- });
-
- // 3. Output results
- console.log(`Total users: ${users.length}`);
- for (const user of users) {
-  console.log(`\nUser: ${user.email}`);
-  console.log(`  100L: ${user.count100} transactions`);
-  console.log(`  200L: ${user.count200} transactions`);
-  console.log(`  Total: ${user.count100 + user.count200}`);
-  // Optionally list a few sample transactions
-  // console.log('  Samples:', user.transactions.slice(0, 3).map(t => t.description));
+  
  }
 }
 
@@ -399,12 +367,12 @@ async function editUser(phone) {
 
 async function maintainDB() {
  console.clear();
- //await transactionFunc(5)
- // await transactionFunc()
- // await userFunc()
+ await dailyViews()
+ await userFunc()
+// await analyzeUsers();
  //await editUser()
 
- await listF_D();
+ // await listF_D();
  console.log("Osiaru administration");
 }
 

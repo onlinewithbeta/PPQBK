@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import app from "./v2/app.js";
 import cfg from "./v2/src/cfg.js";
 //import {giftUsers} from "./v2/src/controllers/users/signup.users.controllers.js";
-import exportUsersToVCF from "./v2/src/controllers/users/admin.js";
+//import exportUsersToVCF from "./v2/src/controllers/users/admin.js";
 
 const PORT = cfg.PORT || 3000;
 const HOST = "localhost";
@@ -20,7 +20,7 @@ const server = app.listen(PORT, async () => {
   console.log('______');
   console.log('______');
 
-  await exportUsersToVCF();
+//  await exportUsersToVCF();
  } catch (err) {
   console.log(err.message);
   process.exit(1);

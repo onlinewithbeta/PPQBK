@@ -775,7 +775,7 @@ export default async function paper(req, res) {
   } else {
    //No free or real Coins
    throw new Error(
-    `Insufficient PPQ Coins. To purchase more, Please go to your dashboard.`
+    `Insufficient PPQ Coins. To purchase more, Please go to your dashboard. And press the Buy(+) Button.`
    );
   }
 

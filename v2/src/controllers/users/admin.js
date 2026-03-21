@@ -1,3 +1,5 @@
+
+
 import usersFunctions from "../../functions/users/users.functions.js";
 
 //import Signin from "../../models/signins.models.js";
@@ -122,7 +124,9 @@ try {
 }
 */
 
-//export default exportUsersToVCF;
+
+//export default exportUsersToVCF
+
 
 async function userFunc() {
  //Users
@@ -143,19 +147,20 @@ async function userFunc() {
 
   let user = allUsers[i];
   // Gift course rep
-  if (user.signins.length > 0) active1++;
-  if (user.signins.length === 0) active2++;
+  if (user.signins.length > 0) active1++;//User signin
+  if (user.signins.length <1) active2++; //no signin
 
-  if (user.wallet.fake_balance < 5) {
+
+  if (user.wallet.fake_balance < 15) {
+  	//User viewed many courses
    active3++;
   }
+  if (user.studentInfo.views.length === 1) active4++;//User view 1 course
 
-  if (user.wallet.fake_balance > 18) active4++;
-  if (user.studentInfo.views.length > 0) active5++;
-  if (user.studentInfo.views.length < 1) {
-   //await here
-   // 	await Email(user)
-   active6++;
+
+  if (user.studentInfo.views.length < 1) active5++; //no view user
+  if (user.studentInfo.views.length  > 0) {
+   active6++;//users has view
    /*
   	console.log({
   	name:user.gmail,
@@ -186,7 +191,7 @@ async function userFunc() {
  console.log(`We have ${active1} User signin`);
  console.log(`We have ${active2} no signin`);
  console.log(`We have ${active3} User viewed many courses`);
- console.log(`We have ${active4} User no/little view course`);
+ console.log(`We have ${active4} User view 1 course`);
  console.log(`We have ${active5} no view user`);
  console.log(`We have ${active6} users has view`);
 }
@@ -253,6 +258,7 @@ async function dailyViews() {
  let inactiveUsers = [];
  //transactions
  const allTransactions = await Transactions.find({});
+ console.log(`We have ${allTransactions.length} Transactions`);
 
  for (let g = 0; g < 90; g++) {
   let day = [];
@@ -366,9 +372,9 @@ async function editUser(phone) {
 }
 
 async function maintainDB() {
- console.clear();
- await dailyViews()
- await userFunc()
+// console.clear();
+await dailyViews()
+await userFunc()
 // await analyzeUsers();
  //await editUser()
 

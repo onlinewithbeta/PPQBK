@@ -753,8 +753,10 @@ export default async function paper(req, res) {
   //  console.log(examPaper);
 
   //deduct and record
-  const newFakeBalance = user.wallet.fake_balance - 1;
-  const newBalance = user.wallet.balance - 1;
+  const newFakeBalance = user.wallet.fake_balance - 5;
+  const newBalance = user.wallet.balance - 2;
+  let newPrice = 2;
+
   let balance;
   let mode;
 
@@ -763,15 +765,17 @@ export default async function paper(req, res) {
    mode = "Free";
    balance = newFakeBalance;
    user.wallet.fake_balance = balance;
+   newPrice = 5;
   } else if (newBalance > 0) {
    //If we have real coins
    mode = "Real";
    balance = newBalance;
    user.wallet.balance = newBalance;
+   
   } else {
    //No free or real Coins
    throw new Error(
-    "Insufficient PPQ Coins. To purchase more, please go to your dashboard."
+    `Insufficient PPQ Coins. To purchase more, Please go to your dashboard.`
    );
   }
 
@@ -790,7 +794,7 @@ export default async function paper(req, res) {
   const transaction = {
    userTransaction: {
     type: "PQ View",
-    cost: 1,
+    cost: 2,
     description: `${course} ${session}_${mode} __${balance}`,
     status: "success",
     date: {

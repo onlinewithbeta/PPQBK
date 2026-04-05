@@ -1,4 +1,6 @@
-//cont avaShs
+import mongoose from "mongoose";
+import Shares from "../../models/shares.models.js";
+import sharesFunction from "../../functions/shares/shares.functions.js";
 
 async function bank_details(req, res) {
  try {
@@ -7,13 +9,14 @@ async function bank_details(req, res) {
   console.log(`${user.username} wants to add bank details!`);
 
   //Find Shares info
-  //const sharesInfo = await getSharesInfosharesInfo(user.gmail)
-//await add_details ( )  //sharesInfo.bank_details = bank_detail
-
+  const sharesInfo = await sharesFunction.getHolder(user.gmail);
+  //add_details
+  sharesInfo.account = bank_detail;
+  //save
+  const saved = new Shares(sharesInfo);
+  await saved.save();
   // Send the URL back to the client
-  console.log(bank_detail)
   return res.status(200).json(bank_detail);
-  
  } catch (err) {
   // Handle other errors
   console.error("Error in buying shares:", err);

@@ -30,6 +30,11 @@ async function buyshares(req, res) {
 
   await userFunctions.saveUser(user);
 
+//Save to shares holder account as pendingTransacion
+const sharePendingTr = {
+	
+};
+
   // Send the URL back to the client
   res.json({
    success: true,

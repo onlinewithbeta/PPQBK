@@ -1,24 +1,25 @@
 import mongoose from "mongoose";
 import Shares from "../../models/shares.models.js";
-import createShareHolder from "./create.shares.js";
+import createShareHolder from "./create.shares.function.js";
+const Admin = {
+ gmail: "ppqadmin@gmail.com"
+};
 
 //get available shares {my shares}
 
 export default async function getShareHolder(gmail) {
-
-//Search for shares holder
-let result = await Shares.find({gmail:gmail});
-
-//if not a holder create holder with zero shares
-if (result.length === 0) {
-	result = await createShareHolder(gmail);
-}else{
-	result = result[0];
-}
  
-/* const result = {
-  gmail: "Osiaru1@gmail.com",
-  shares: 20,
+ //Search for shares holder
+ let result = await Shares.findOne({ gmail: gmail });
+ let adminAccount = await Shares.findOne({ gmail: Admin.gmail });
+ 
+ //if not a holder create holder with zero shares
+ if (!result) result = await createShareHolder(gmail);
+ result.available_shares = adminAccount.shares;
+
+ /* const result = {
+  gmail: "ppqadmin@gmail.com",
+  shares: 300,
   transactions: [
    {
     type: "buy",
@@ -71,7 +72,6 @@ if (result.length === 0) {
    account_name: "The One",
    account_number: 9117524342
   }
- };*/
- console.log(result)
+};*/
  return result;
 }

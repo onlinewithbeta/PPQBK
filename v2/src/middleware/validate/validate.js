@@ -9,6 +9,8 @@ import signinValidator from './signin.validator.middleware.js';
 import signoutValidator from './signout.validator.middleware.js';
 import forgotpasswordValidator from './forgotpassword.validator.middleware.js';
 import changepasswordValidator from './changepassword.validator.middleware.js';
+import buysharesValidator from './buyshares.validator.middleware.js';
+import bank_detailsValidator from './bank_details.validator.middleware.js';
 
 //handle the validation
 import handleValidation from './handle.validator.middleware.js';
@@ -20,6 +22,8 @@ const validator = {
 	signoutValidator:signoutValidator,
 	forgotpasswordValidator:forgotpasswordValidator,
 	changepasswordValidator:changepasswordValidator,
+	buysharesValidator:buysharesValidator,
+	bank_detailsValidator:bank_detailsValidator,
 	handleValidation:handleValidation
 };
 

@@ -1,5 +1,3 @@
-
-
 import usersFunctions from "../../functions/users/users.functions.js";
 
 //import Signin from "../../models/signins.models.js";
@@ -124,9 +122,7 @@ try {
 }
 */
 
-
 //export default exportUsersToVCF
-
 
 async function userFunc() {
  //Users
@@ -147,20 +143,18 @@ async function userFunc() {
 
   let user = allUsers[i];
   // Gift course rep
-  if (user.signins.length > 0) active1++;//User signin
-  if (user.signins.length <1) active2++; //no signin
-
+  if (user.signins.length > 0) active1++; //User signin
+  if (user.signins.length < 1) active2++; //no signin
 
   if (user.wallet.fake_balance < 15) {
-  	//User viewed many courses
+   //User viewed many courses
    active3++;
   }
-  if (user.studentInfo.views.length === 1) active4++;//User view 1 course
-
+  if (user.studentInfo.views.length === 1) active4++; //User view 1 course
 
   if (user.studentInfo.views.length < 1) active5++; //no view user
-  if (user.studentInfo.views.length  > 0) {
-   active6++;//users has view
+  if (user.studentInfo.views.length > 0) {
+   active6++; //users has view
    /*
   	console.log({
   	name:user.gmail,
@@ -217,7 +211,7 @@ async function transactionFunc() {
  //transactions
  const allTransactions = await Transactions.find({});
 
- for (let g = 0; g < 90; g++) {
+ for (let g = 0; g < 40; g++) {
   let day = [];
 
   for (let i = 0; i < allTransactions.length; i++) {
@@ -254,6 +248,10 @@ async function transactionFunc() {
  console.log(inactiveUsers);
 }
 
+let yr1 = 0;
+let yr2 = 0;
+let yr3 = 0;
+
 async function dailyViews() {
  let inactiveUsers = [];
  //transactions
@@ -286,22 +284,37 @@ async function dailyViews() {
     };
 
     day.push(details);
-    if (g === 0) console.log(details);
+      if (g === 0) console.log(details)
+    // 1. Group transactions by user
+    const userMap = new Map();
+
+    const fifthChar = transaction.userTransaction.description[4]; // zero-based index 4 = 5th character
+    // Determine level based on 5th character (index 4)
+
+    if (fifthChar === "1" || fifthChar === "3") {
+     yr1++;
+    } else {
+     yr2++;
+    }
+
+    //console.log(details);
+    //   }
    }
   }
-
+  console.log(yr1, yr2);
+  yr1 = 0;
+  yr2 = 0;
   // Format the date for display
   const dateLabel = targetDate.toLocaleDateString("en-US", {
    month: "short",
    day: "numeric",
    year: "numeric"
   });
-
   console.log(`${dateLabel}:`, day.length);
- }
 
- console.log(`We have ${allTransactions.length} Transactions`);
- console.log(inactiveUsers);
+ }
+  console.log(`We have ${allTransactions.length} Transactions`);
+  console.log(yr1, yr2);
 }
 
 async function analyzeUsers() {
@@ -318,13 +331,12 @@ async function analyzeUsers() {
   const email = txn.gmail;
   const desc = txn.userTransaction.description || "";
 
-   const fifthChar = desc[4]; // zero-based index 4 = 5th character
+  const fifthChar = desc[4]; // zero-based index 4 = 5th character
   // Determine level based on 5th character (index 4)
 
   if (txn.userTransaction.type === "funding") {
-  	console.log(txn.userTransaction.gmail);
+   console.log(txn.userTransaction.gmail);
   }
-  
  }
 }
 
@@ -348,10 +360,10 @@ async function deletedUser(userIdU, i) {
 }
 
 async function giftUser(amount) {
- let thisUsers = await User.find({ phone: "9065095561" });
+ let thisUsers = await User.find({ gmail: "nelsonagrayah16@gmail.com"});
  thisUsers = thisUsers[0];
 
- thisUsers.wallet.fake_balance = thisUsers.wallet.fake_balance + amount;
+ thisUsers.wallet.balance = thisUsers.wallet.balance + amount;
 
  await usersFunctions.saveUser(thisUsers);
 
@@ -360,23 +372,25 @@ async function giftUser(amount) {
 
 async function editUser(phone) {
  //A User
- let thisUsers = await User.find({ phone: "8136907706" });
+ let thisUsers = await User.find({ gmail: "osiarurobert@gmail.com" });
  thisUsers = thisUsers[0];
+ console.log(thisUsers.studentInfo.views);
  console.log(thisUsers);
  //Edit
- // const hashPasswordValue = await gen.passwordFunc.hasher('Kasababe1');
- // aUsers.sensetive.password.value=hashPasswordValue;
+ // const hashPasswordValue = await gen.passwordFunc.hasher('200311@lB');
+ // thisUsers.sensetive.password.value=hashPasswordValue;
 
  //save
- //await usersFunctions.saveUser(thisUsers);
+ await usersFunctions.saveUser(thisUsers);
 }
 
 async function maintainDB() {
-// console.clear();
-await dailyViews()
-await userFunc()
-// await analyzeUsers();
- //await editUser()
+ // console.clear();
+// await giftUser(500)
+//await dailyViews();
+//await userFunc();
+ // await analyzeUsers();
+await editUser();
 
  // await listF_D();
  console.log("Osiaru administration");

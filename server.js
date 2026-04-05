@@ -20,7 +20,10 @@ const server = app.listen(PORT, async () => {
   console.log('______');
   console.log('______');
 
-//  await exportUsersToVCF();
+
+///////////await exportUsersToVCF();
+
+
  } catch (err) {
   console.log(err.message);
   process.exit(1);

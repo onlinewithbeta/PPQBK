@@ -7,7 +7,7 @@ import validator from '../middleware/validate/validate.js';
 const router = Router();
 
 
-
+console.log('shares')
 router.use(apikeyMiddleware)
 router.get('/',shares.info);
 router.post('/buy',validator.buysharesValidator, validator.handleValidation, shares.buy);

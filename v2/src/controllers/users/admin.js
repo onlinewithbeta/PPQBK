@@ -387,10 +387,10 @@ async function editUser(phone) {
 async function maintainDB() {
  // console.clear();
 // await giftUser(500)
-//await dailyViews();
-//await userFunc();
+await dailyViews();
+await userFunc();
  // await analyzeUsers();
-await editUser();
+//await editUser();
 
  // await listF_D();
  console.log("Osiaru administration");

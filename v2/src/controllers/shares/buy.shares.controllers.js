@@ -11,7 +11,7 @@ async function buyshares(req, res) {
   console.log(`${user.username} wants to buy ${amount} shares!`);
   const requestShares = await sharesFunction.reqShares(gmail, amount);
 
-  //save as pending
+  //save as pending transactions to user obj
   let pendingTransacion = {
    type: "Buy Shares",
    cost: amount * 1100,
@@ -30,11 +30,20 @@ async function buyshares(req, res) {
 
   await userFunctions.saveUser(user);
 
-//Save to shares holder account as pendingTransacion
-const sharePendingTr = {
-	
-};
-
+  //Save to shares holder account as pendingTransacion
+  const sharePendingTrans = {
+   type: "buy",
+   status: "pending",
+   amount: amount,
+   transactionid: requestShares.reference
+  };
+  const shareHolder = await sharesFunction.getHolder(gmail);
+  
+  shareHolder.transactions.unshift(sharePendingTrans);
+  
+  await shareHolder.save();			
+  
+  
   // Send the URL back to the client
   res.json({
    success: true,

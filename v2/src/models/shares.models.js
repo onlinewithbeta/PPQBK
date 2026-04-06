@@ -58,9 +58,18 @@ const userSchema = new mongoose.Schema(
     },
     transactionid: {
      type: String
-    }
+    },
+    date: {
+   initiated: {
+    type: Date,
+    default: Date.now
+   },
+   verified: {
+    type: Date,
+    default: null
    }
-  ]
+   }
+  }]
  },
 
  {

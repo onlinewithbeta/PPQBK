@@ -35,7 +35,11 @@ async function buyshares(req, res) {
    type: "buy",
    status: "pending",
    amount: amount,
-   transactionid: requestShares.reference
+   transactionid: requestShares.reference,
+   date :{
+   		initiated : Date.now(),
+   		verified : null
+   }
   };
   const shareHolder = await sharesFunction.getHolder(gmail);
   

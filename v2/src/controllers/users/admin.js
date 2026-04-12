@@ -134,6 +134,7 @@ async function userFunc() {
  let active4 = 0;
  let active5 = 0;
  let active6 = 0;
+ let active7 = 0;
 
  console.log("analy users");
  let limit = 0;
@@ -146,10 +147,8 @@ async function userFunc() {
   if (user.signins.length > 0) active1++; //User signin
   if (user.signins.length < 1) active2++; //no signin
 
-  if (user.wallet.fake_balance < 15) {
-   //User viewed many courses
-   active3++;
-  }
+  if (user.wallet.fake_balance < 15) active3++; //User viewed many courses
+  
   if (user.studentInfo.views.length === 1) active4++; //User view 1 course
 
   if (user.studentInfo.views.length < 1) active5++; //no view user
@@ -164,7 +163,11 @@ async function userFunc() {
   })
   */
   }
-
+  
+  if (user.wallet.balance > 300) {
+  	active7++;
+  	console.log(user.username,user.phone,user.studentInfo.department,user.studentInfo.faculty, user.wallet.balance )
+  }//investor
   /*
    if (i > 1318) {
    	
@@ -180,6 +183,7 @@ async function userFunc() {
    }
    */
  }
+ console.log(`We have ${active7} User can invest`);
 
  console.log(`We have ${allUsers.length} Users`);
  console.log(`We have ${active1} User signin`);
@@ -372,7 +376,7 @@ async function giftUser(amount) {
 
 async function editUser(phone) {
  //A User
- let thisUsers = await User.find({ gmail: "osiarurobert@gmail.com" });
+ let thisUsers = await User.find({ gmail: "Azeezsalami100@gmail.com" });
  thisUsers = thisUsers[0];
  console.log(thisUsers.studentInfo.views);
  console.log(thisUsers);

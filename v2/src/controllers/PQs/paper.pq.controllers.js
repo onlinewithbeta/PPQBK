@@ -748,7 +748,8 @@ export default async function paper(req, res) {
    ]
   };*/
   let user = req.user;
-  const old_balance = user.wallet.fake_balance + user.wallet.balance;
+  const old_balance = user.wallet.balance;
+ // const old_balance = user.wallet.fake_balance + user.wallet.balance;
 
   //  console.log(examPaper);
 
@@ -760,7 +761,7 @@ export default async function paper(req, res) {
   let balance;
   let mode;
 
-  if (newFakeBalance > 0) {
+  if (newFakeBalance >10000) {
    //If we have free coins
    mode = "Free";
    balance = newFakeBalance;
@@ -775,7 +776,7 @@ export default async function paper(req, res) {
   } else {
    //No free or real Coins
    throw new Error(
-    `Insufficient PPQ Coins. To purchase more, Please go to your dashboard. And press the Buy(+) Button.`
+    `Insufficient PPQ Coins. To purchase more, Please go to your dashboard. And press the Buy(+) Button. https://projectpq.name.ng/app/user`
    );
   }
 

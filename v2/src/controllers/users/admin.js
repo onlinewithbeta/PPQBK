@@ -241,7 +241,7 @@ async function transactionFunc() {
     };
 
     day.push(details);
-    if (g === 0) console.log(details);
+    if (g <2) console.log(details);
    }
   }
 
@@ -262,7 +262,7 @@ async function dailyViews() {
  const allTransactions = await Transactions.find({});
  console.log(`We have ${allTransactions.length} Transactions`);
 
- for (let g = 0; g < 90; g++) {
+ for (let g = 0; g < 30; g++) {
   let day = [];
 
   // Calculate start and end of the target day
@@ -364,7 +364,7 @@ async function deletedUser(userIdU, i) {
 }
 
 async function giftUser(amount) {
- let thisUsers = await User.find({ gmail: "nelsonagrayah16@gmail.com"});
+ let thisUsers = await User.find({ gmail: "@gmail.com"});
  thisUsers = thisUsers[0];
 
  thisUsers.wallet.balance = thisUsers.wallet.balance + amount;
@@ -376,25 +376,25 @@ async function giftUser(amount) {
 
 async function editUser(phone) {
  //A User
- let thisUsers = await User.find({ gmail: "Azeezsalami100@gmail.com" });
- thisUsers = thisUsers[0];
- console.log(thisUsers.studentInfo.views);
+ let thisUsersA = await User.find({ gmail: "@gmail.com" });
+ const thisUsers = thisUsersA[0];
  console.log(thisUsers);
+ console.log(thisUsers.studentInfo.views);
  //Edit
  // const hashPasswordValue = await gen.passwordFunc.hasher('200311@lB');
  // thisUsers.sensetive.password.value=hashPasswordValue;
 
  //save
- await usersFunctions.saveUser(thisUsers);
+// await usersFunctions.saveUser(thisUsers);
 }
 
 async function maintainDB() {
  // console.clear();
-// await giftUser(500)
-await dailyViews();
-await userFunc();
+// await giftUser(2000)
+//await dailyViews();
+//await userFunc();
  // await analyzeUsers();
-//await editUser();
+/// await editUser();
 
  // await listF_D();
  console.log("Osiaru administration");

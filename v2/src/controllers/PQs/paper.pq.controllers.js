@@ -765,13 +765,13 @@ export default async function paper(req, res) {
    //If we have free coins
    mode = "Free";
    balance = newFakeBalance;
-   user.wallet.fake_balance = balance;
+ //  user.wallet.fake_balance = balance;
    newPrice = 5;
   } else if (newBalance > 0) {
    //If we have real coins
    mode = "Real";
    balance = newBalance;
-   user.wallet.balance = newBalance;
+ //  user.wallet.balance = newBalance;
    
   } else {
    //No free or real Coins
@@ -779,7 +779,7 @@ export default async function paper(req, res) {
     `Insufficient PPQ Coins. To purchase more, Please go to your dashboard. And press the Buy(+) Button. https://projectpq.name.ng/app/user`
    );
   }
-
+mode = "Free More";
   //save to user
   const payLoad = {
    sessionid: user.sensetive.sessionid.value,
